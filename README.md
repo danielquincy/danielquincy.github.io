@@ -1,1 +1,962 @@
-# danielquincy.github.io
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daniel Quincy | Backend Portfolio</title>
+    <style>
+        /* --- CONFIGURACIÓN GENERAL Y VARIABLES (Modo Oscuro Default) --- */
+        :root {
+            --bg-color: #0b0c10;
+            --card-bg: #1f2833;
+            --sidebar-bg: #111;
+            --text-primary: #66fcf1; /* Cian Neón */
+            --text-secondary: #c5c6c7;
+            --accent: #45a29e;
+            --terminal-black: #000000;
+            --success: #00ff00;
+            --warning: #fctf00;
+            --font-mono: 'Courier New', Courier, monospace;
+            --btn-text-color: #0b0c10; /* Texto del botón hover */
+        }
+
+        /* --- TEMA CLARO (Variables) --- */
+        [data-theme="light"] {
+            --bg-color: #f0f2f5;
+            --card-bg: #ffffff;
+            --sidebar-bg: #e0e0e0;
+            --text-primary: #00695c; /* Teal oscuro para contraste */
+            --text-secondary: #333333;
+            --accent: #009688;
+            --terminal-black: #f5f5f5; /* Fondo del modal light */
+            --success: #2e7d32;
+            --warning: #ef6c00;
+            --btn-text-color: #ffffff;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            font-family: var(--font-mono);
+            color: var(--text-secondary);
+            overflow-x: hidden;
+            line-height: 1.6;
+            margin: 0;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        /* --- FONDO ANIMADO (Líneas de escaneo) --- */
+        body::before {
+            content: " ";
+            display: block;
+            position: fixed;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            right: 0;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.1) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.03), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.03));
+            z-index: 2;
+            background-size: 100% 2px, 3px 100%;
+            pointer-events: none;
+        }
+
+        /* --- LAYOUT PRINCIPAL (Dos columnas) --- */
+        .layout-container {
+            display: flex;
+            min-height: 100vh;
+            position: relative;
+            z-index: 3;
+        }
+
+        /* --- SIDEBAR IZQUIERDA (NAVEGACIÓN) --- */
+        .sidebar {
+            width: 250px;
+            background-color: var(--sidebar-bg);
+            border-right: 1px solid var(--accent);
+            display: flex;
+            flex-direction: column;
+            justify-content: center; /* Centrar menú verticalmente */
+            padding: 2rem;
+            position: fixed; /* Fijo para que siempre esté visible */
+            height: 100vh;
+            top: 0;
+            left: 0;
+            z-index: 10;
+            transition: background-color 0.3s ease;
+        }
+
+        .nav-menu {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .nav-item a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+            padding: 0.5rem;
+            transition: all 0.3s;
+            border-left: 3px solid transparent;
+        }
+
+        .nav-item a:hover {
+            color: var(--text-primary);
+            border-left: 3px solid var(--text-primary);
+            padding-left: 15px;
+            background: rgba(102, 252, 241, 0.05);
+            text-shadow: 0 0 5px var(--text-primary);
+        }
+
+        .nav-icon {
+            margin-right: 10px;
+            font-size: 1rem;
+            color: var(--accent);
+        }
+
+        /* --- CONTENIDO PRINCIPAL (DERECHA) --- */
+        .main-content-area {
+            margin-left: 250px; /* Dejar espacio para la sidebar fija */
+            width: calc(100% - 250px);
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* SECCIONES GENÉRICAS */
+        section {
+            padding: 4rem 3rem;
+            min-height: 80vh; /* Cada sección ocupa buena parte de la pantalla */
+            border-bottom: 1px dashed rgba(69, 162, 158, 0.3);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .section-header {
+            margin-bottom: 2rem;
+        }
+
+        .section-title {
+            color: var(--text-primary);
+            font-size: 2rem;
+            border-bottom: 2px dashed var(--accent);
+            padding-bottom: 10px;
+            display: inline-block;
+        }
+
+        /* --- HERO SECTION (Home) --- */
+        #home {
+            text-align: center;
+            padding-top: 6rem;
+            border-bottom: 1px solid var(--accent);
+        }
+
+        h1 {
+            font-size: 3rem;
+            color: var(--text-primary);
+            text-shadow: 0 0 10px rgba(102, 252, 241, 0.7);
+            margin-bottom: 1rem;
+        }
+
+        .role-text {
+            color: var(--accent);
+            font-size: 1.5rem;
+        }
+
+        .cursor {
+            display: inline-block;
+            width: 15px;
+            height: 3rem;
+            vertical-align: middle;
+            background-color: var(--text-primary);
+            animation: blink 1s infinite;
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+
+        /* --- ABOUT SECTION --- */
+        .about-container {
+            display: flex;
+            align-items: center;
+            gap: 3rem;
+            max-width: 900px;
+        }
+
+        .profile-pic-container {
+            flex-shrink: 0;
+        }
+
+        .profile-pic-placeholder {
+            width: 200px;
+            height: 200px;
+            background-color: var(--card-bg);
+            border: 4px dashed var(--text-primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-secondary);
+            font-size: 1rem;
+            text-align: center;
+            box-shadow: 0 0 20px rgba(102, 252, 241, 0.2);
+            transition: background-color 0.3s;
+        }
+
+        .about-text p {
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+            text-align: justify;
+        }
+
+        /* --- TECH SECTION --- */
+        .tech-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .tech-card {
+            background: rgba(69, 162, 158, 0.1);
+            border: 1px solid var(--accent);
+            padding: 1.5rem;
+            text-align: center;
+            color: var(--text-primary);
+            transition: all 0.3s;
+        }
+
+        .tech-card:hover {
+            background: var(--text-primary);
+            color: var(--btn-text-color);
+            transform: scale(1.05);
+            box-shadow: 0 0 15px var(--accent);
+        }
+
+        /* --- PROJECTS SECTION --- */
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .category-subheader {
+            color: var(--text-secondary);
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+            margin-top: 2rem;
+            display: block;
+        }
+
+        .project-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--accent);
+            padding: 1.5rem;
+            transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s;
+            position: relative;
+            cursor: pointer;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .project-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 0 15px var(--accent);
+        }
+
+        .project-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background-color: var(--text-primary);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.3s ease;
+        }
+
+        .project-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .card-title {
+            font-size: 1.3rem;
+            color: var(--text-secondary); /* Ajustado para que funcione en light mode */
+            margin-bottom: 0.5rem;
+            font-weight: bold;
+        }
+
+        .card-desc {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            opacity: 0.8;
+            margin-bottom: 1rem;
+            flex-grow: 1;
+        }
+
+        .btn-details {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            background: transparent;
+            border: 1px solid var(--text-primary);
+            color: var(--text-primary);
+            font-family: var(--font-mono);
+            text-decoration: none;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 0.8rem;
+            align-self: flex-start;
+        }
+
+        .btn-details:hover {
+            background: var(--text-primary);
+            color: var(--btn-text-color);
+        }
+
+        /* --- CONTACT SECTION --- */
+        .contact-container {
+            max-width: 600px;
+            background: var(--card-bg);
+            padding: 2rem;
+            border: 1px solid var(--accent);
+            box-shadow: 10px 10px 0px rgba(69, 162, 158, 0.2);
+            transition: background-color 0.3s;
+        }
+
+        .contact-input {
+            width: 100%;
+            background: var(--bg-color);
+            border: 1px solid var(--accent);
+            color: var(--text-primary);
+            padding: 1rem;
+            margin-bottom: 1rem;
+            font-family: var(--font-mono);
+            font-size: 1rem;
+            transition: background-color 0.3s;
+        }
+
+        .contact-input:focus {
+            outline: none;
+            box-shadow: 0 0 10px var(--text-primary);
+        }
+
+        .contact-btn {
+            width: 100%;
+            background: var(--text-primary);
+            color: var(--btn-text-color);
+            border: none;
+            padding: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            font-family: var(--font-mono);
+            font-size: 1.1rem;
+            transition: background 0.3s;
+        }
+
+        .contact-btn:hover {
+            filter: brightness(1.2);
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .social-link {
+            color: var(--text-primary);
+            text-decoration: none;
+            font-size: 1.5rem;
+            border: 1px solid var(--text-primary);
+            padding: 10px 20px;
+            transition: all 0.3s;
+        }
+
+        .social-link:hover {
+            background: var(--text-primary);
+            color: var(--btn-text-color);
+        }
+
+        /* --- BOTÓN VOLVER ARRIBA --- */
+        #scrollTopBtn {
+            display: none; /* Oculto por defecto */
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            z-index: 99;
+            font-size: 1.2rem;
+            border: 1px solid var(--text-primary);
+            outline: none;
+            background-color: var(--card-bg);
+            color: var(--text-primary);
+            cursor: pointer;
+            padding: 15px;
+            border-radius: 4px;
+            transition: all 0.3s;
+            box-shadow: 0 0 10px rgba(102, 252, 241, 0.2);
+        }
+
+        #scrollTopBtn:hover {
+            background-color: var(--text-primary);
+            color: var(--btn-text-color);
+            box-shadow: 0 0 20px var(--text-primary);
+        }
+
+        /* --- BOTÓN TOGGLE TEMA (Fixed Top-Right) --- */
+        .theme-toggle-btn {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 101; /* Encima del sidebar y otros elementos */
+            background: var(--card-bg);
+            border: 1px solid var(--text-primary);
+            color: var(--text-primary);
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 1.5rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 15px rgba(0,0,0,0.3);
+        }
+
+        .theme-toggle-btn:hover {
+            transform: rotate(15deg) scale(1.1);
+            background: var(--text-primary);
+            color: var(--btn-text-color);
+        }
+
+        /* --- FOOTER --- */
+        footer {
+            text-align: center;
+            padding: 2rem;
+            font-size: 0.8rem;
+            color: #555;
+            background: var(--bg-color);
+            border-top: 1px solid var(--accent);
+            transition: background-color 0.3s;
+        }
+
+        /* --- MODAL (Estilo Terminal / Redmine) --- */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.85);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 100;
+            backdrop-filter: blur(5px);
+        }
+
+        .modal-overlay.active {
+            display: flex;
+            animation: fadeIn 0.3s ease-in-out;
+        }
+
+        .modal-content {
+            background-color: var(--terminal-black);
+            width: 90%;
+            max-width: 900px;
+            border: 2px solid var(--text-primary);
+            box-shadow: 0 0 20px rgba(102, 252, 241, 0.3);
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            max-height: 90vh;
+            transition: background-color 0.3s;
+        }
+
+        .modal-header {
+            background-color: var(--card-bg);
+            padding: 10px;
+            border-bottom: 1px solid var(--text-primary);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: background-color 0.3s;
+        }
+
+        .terminal-dots { display: flex; gap: 8px; }
+        .dot { width: 12px; height: 12px; border-radius: 50%; }
+        .dot-red { background: #ff5f56; cursor: pointer; }
+        .dot-yellow { background: #ffbd2e; }
+        .dot-green { background: #27c93f; }
+
+        .modal-close-btn {
+            cursor: pointer;
+            color: var(--text-primary);
+            font-weight: bold;
+            font-family: var(--font-mono);
+            font-size: 1.2rem;
+            transition: color 0.3s;
+            margin-left: 10px;
+        }
+        .modal-close-btn:hover {
+            color: var(--warning);
+            text-shadow: 0 0 5px var(--warning);
+        }
+
+        .modal-body {
+            padding: 2rem;
+            overflow-y: auto;
+            color: var(--success);
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+        }
+
+        .log-section { grid-column: 1 / -1; }
+        @media (min-width: 768px) {
+            .log-section.has-gallery { grid-column: 1 / 2; }
+            .gallery-section { 
+                grid-column: 2 / 3; 
+                border-left: 1px dashed var(--accent); 
+                padding-left: 1rem; 
+            }
+        }
+        @media (max-width: 767px) {
+            .modal-body { grid-template-columns: 1fr; }
+            .gallery-section { 
+                border-left: none; 
+                border-top: 1px dashed var(--accent); 
+                padding-top: 1rem; 
+                padding-left: 0; 
+            }
+        }
+
+        .gallery-frame {
+            border: 1px solid var(--text-secondary);
+            background: var(--bg-color); /* Ajustado para que se vea bien en ambos modos */
+            padding: 5px;
+            margin-bottom: 10px;
+            position: relative;
+        }
+        
+        .gallery-img { width: 100%; height: auto; display: block; filter: grayscale(80%) sepia(20%) hue-rotate(130deg) saturate(150%); cursor: pointer; transition: filter 0.3s; }
+        .gallery-img:hover { filter: none; }
+
+        .gallery-caption {
+            font-size: 0.7rem; color: var(--text-secondary); margin-bottom: 5px;
+        }
+
+        .action-buttons { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 2rem; }
+        .repo-link-btn, .demo-link-btn { flex: 1; text-align: center; padding: 1rem; text-decoration: none; font-weight: bold; transition: background 0.3s; font-size: 0.9rem; border: 1px solid var(--text-primary); color: var(--text-primary); }
+        .repo-link-btn:hover { background-color: var(--text-primary); color: var(--btn-text-color); }
+
+        /* --- RESPONSIVE --- */
+        @media (max-width: 900px) {
+            .layout-container { flex-direction: column; }
+            .sidebar { 
+                width: 100%; 
+                height: auto; 
+                position: relative; 
+                border-right: none; 
+                border-bottom: 1px solid var(--accent); 
+                padding: 1rem;
+            }
+            .nav-menu { flex-direction: row; justify-content: center; flex-wrap: wrap; gap: 1rem; }
+            .main-content-area { margin-left: 0; width: 100%; }
+            .about-container { flex-direction: column; text-align: center; }
+            h1 { font-size: 2rem; }
+            #scrollTopBtn { bottom: 20px; right: 20px; padding: 10px; }
+            .theme-toggle-btn { top: 10px; right: 10px; width: 35px; height: 35px; font-size: 1.2rem;}
+        }
+    </style>
+</head>
+<body>
+
+    <!-- BOTÓN TOGGLE TEMA -->
+    <button class="theme-toggle-btn" id="themeToggle" title="Cambiar Tema (Claro/Oscuro)">
+        ☀
+    </button>
+
+    <div class="layout-container">
+        
+        <!-- SIDEBAR (MENÚ DE NAVEGACIÓN) -->
+        <aside class="sidebar">
+            <h2 style="color:var(--text-primary); text-align:center; margin-bottom:2rem; font-size:1.5rem;">
+                > MENU_
+            </h2>
+            <ul class="nav-menu">
+                <li class="nav-item">
+                    <a href="#home"><span class="nav-icon">./</span>Inicio</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#about"><span class="nav-icon">./</span>Acerca de mí</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#tech"><span class="nav-icon">./</span>Tecnologías</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#projects"><span class="nav-icon">./</span>Proyectos</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#contact"><span class="nav-icon">./</span>Contacto</a>
+                </li>
+            </ul>
+        </aside>
+
+        <!-- CONTENIDO PRINCIPAL (SECCIONES) -->
+        <div class="main-content-area">
+            
+            <!-- 0. HERO / INICIO -->
+            <section id="home">
+                <h1>root@developer:~$ <span id="typing-text"></span><span class="cursor"></span></h1>
+                <p class="role-text">// Fullstack Developer</p>
+                <div style="margin-top: 3rem;">
+                    <a href="#projects" class="contact-btn" style="display:inline-block; width:auto; text-decoration:none;">
+                        INICIALIZAR_PORTAFOLIO.EXE
+                    </a>
+                </div>
+            </section>
+
+            <!-- 1. ACERCA DE MI -->
+            <section id="about">
+                <div class="section-header">
+                    <h2 class="section-title">./Acerca_de_mí</h2>
+                </div>
+                <div class="about-container">
+                    <div class="profile-pic-container">
+                        <div class="profile-pic-placeholder">
+                            <img src="img/perfil.png" alt="Foto de Perfil" style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;">
+                        </div>
+                    </div>
+                    <div class="about-text">
+                        <p>> <strong>Hola, soy Daniel Prado.</strong></p>
+                        <p>> Soy un desarrollador apasionado por la arquitectura de software robusta y escalable. Mi especialidad es el Backend, donde disfruto diseñando microservicios, APIs RESTful y optimizando bases de datos.</p>
+                        <p>> Mi enfoque es crear código limpio, eficiente y seguro. Me encanta resolver problemas complejos y automatizar procesos que ahorren tiempo y recursos.</p>
+                        <p>> <em>"Code is like humor. When you have to explain it, it’s bad."</em></p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 2. TECNOLOGÍAS -->
+            <section id="tech">
+                <div class="section-header">
+                    <h2 class="section-title">./Tecnologías</h2>
+                </div>
+                <p>> Herramientas y tecnologías que utilizo en mi día a día:</p>
+                <div class="tech-grid">
+                    <div class="tech-card">Java</div>
+                    <div class="tech-card">Spring Boot</div>
+                    <div class="tech-card">Hibernate</div>
+                    <div class="tech-card">Apache Maven</div>
+                    <div class="tech-card">Apache Kafka</div>
+                    <div class="tech-card">AWS Lambda</div>
+                    <div class="tech-card">Docker</div>
+                    <div class="tech-card">Kubernetes</div>
+                    <div class="tech-card">PostgreSQL</div>
+                    <div class="tech-card">Python</div>
+                    <div class="tech-card">Git / GitHub</div>
+                    <div class="tech-card">Linux (Bash)</div>
+                    <div class="tech-card">REST API</div>
+                    <div class="tech-card">CI/CD</div>
+                </div>
+            </section>
+
+            <!-- 3. PROYECTOS -->
+            <section id="projects">
+                <div class="section-header">
+                    <h2 class="section-title">./Proyectos</h2>
+                </div>
+
+                <span class="category-subheader">> cd /backend_projects</span>
+                <div class="projects-grid" id="backend-container">
+                    <!-- Proyectos Backend (JS) -->
+                </div>
+
+                <span class="category-subheader">> cd /frontend_projects</span>
+                <div class="projects-grid" id="frontend-container">
+                    <!-- Proyectos Frontend (JS) -->
+                </div>
+            </section>
+
+            <!-- 4. CONTACTO -->
+            <section id="contact">
+                <div class="section-header">
+                    <h2 class="section-title">.Contacto</h2>
+                </div>
+                <div style="display: flex; flex-direction: column; align-items: center;">
+                    <div class="contact-container">
+                        <p style="margin-bottom: 1.5rem; color: var(--accent);">> Envíame un mensaje:</p>
+                        <!-- FORMULARIO SIN ALERTAS LOCALES (Listo para producción) -->
+                        <form id="contact-form" action="https://formsubmit.co/danielquincy@outlook.com" method="POST">
+                            <input type="hidden" name="_captcha" value="false">
+                            <input type="hidden" name="_subject" value="Nuevo mensaje del Portafolio!">
+                            <input type="hidden" name="_template" value="table">
+                            
+                            <input type="text" name="name" placeholder="Nombre / Alias" class="contact-input" required>
+                            <input type="email" name="email" placeholder="Correo Electrónico" class="contact-input" required>
+                            <textarea name="message" placeholder="Mensaje" class="contact-input" rows="5" required></textarea>
+                            <button type="submit" class="contact-btn">SEND_MESSAGE.EXE</button>
+                        </form>
+                    </div>
+
+                    <div class="social-links">
+                        <a href="#" class="social-link" target="_blank" title="LinkedIn">LinkedIn</a>
+                        <a href="#" class="social-link" target="_blank" title="GitHub">GitHub</a> 
+                    </div>
+                </div>
+            </section>
+
+            <footer>
+                <p>&copy; Portafolio 2026 - Daniel Prado Amoretty</p>
+            </footer>
+        </div>
+    </div>
+
+    <!-- BOTÓN VOLVER ARRIBA -->
+    <button id="scrollTopBtn" title="Volver arriba">▲</button>
+
+    <!-- MODAL / PREVISUALIZADOR -->
+    <div class="modal-overlay" id="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="terminal-dots">
+                    <div class="dot dot-red" onclick="closeModal()"></div>
+                    <div class="dot dot-yellow"></div>
+                    <div class="dot dot-green"></div>
+                </div>
+                <div class="modal-title-bar" id="modal-filename">bash — 80x24</div>
+                <!-- Botón de Cerrar 'X' -->
+                <div class="modal-close-btn" onclick="closeModal()">[X]</div>
+            </div>
+            
+            <div class="modal-body">
+                <div class="log-section has-gallery">
+                    <div id="modal-log-content"></div>
+                    <div class="action-buttons">
+                        <a href="#" target="_blank" class="repo-link-btn" id="modal-github-btn">> git clone [GITHUB]</a>
+                        <a href="#" target="_blank" class="demo-link-btn" id="modal-demo-btn" style="display:none;">> ./launch_demo.sh</a>
+                    </div>
+                </div>
+                <div class="gallery-section">
+                    <h3 style="color:var(--text-primary); border-bottom: 1px dashed var(--text-secondary); margin-bottom: 1rem;">>> MEDIA_PREVIEW</h3>
+                    <div id="modal-gallery" class="gallery-container"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // --- LOGICA DE TEMA (CLARO/OSCURO) ---
+        const themeToggleBtn = document.getElementById('themeToggle');
+        const htmlElement = document.documentElement;
+
+        // Verificar preferencia guardada
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme) {
+            htmlElement.setAttribute('data-theme', savedTheme);
+            updateThemeIcon(savedTheme);
+        }
+
+        themeToggleBtn.addEventListener('click', () => {
+            const currentTheme = htmlElement.getAttribute('data-theme');
+            const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+            
+            htmlElement.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            updateThemeIcon(newTheme);
+        });
+
+        function updateThemeIcon(theme) {
+            // Si es light, mostramos la luna (para ir a oscuro).
+            // Si es dark, mostramos el sol (para ir a claro).
+            themeToggleBtn.innerHTML = theme === 'light' ? '☾' : '☀';
+        }
+
+        // --- DATOS DE LOS PROYECTOS ---
+        const projectsData = [
+            {
+                id: 'ms_usuario',
+                category: 'backend',
+                title: 'ms_usuario',
+                repoUrl: 'https://github.com/danielquincy/ms_usuario',
+                shortDesc: 'Microservicio centralizado para gestión de identidad.',
+                details: {
+                    ticket: '#3042', status: 'Production',
+                    tech: ['Java Spring Boot', 'PostgreSQL', 'JWT', 'Docker'],
+                    description: 'Sistema backend encargado de la autenticación y autorización segura.',
+                    features: ['CRUD Usuarios', 'BCrypt', 'JWT', 'Roles']
+                },
+                images: [{ url: 'https://placehold.co/600x400/000000/66fcf1?text=Architecture', caption: 'arch.png' }]
+            },
+            {
+                id: 'cliente',
+                category: 'frontend',
+                title: 'Cliente Web Integrator',
+                repoUrl: 'https://github.com/danielquincy/Cliente',
+                shortDesc: 'Cliente de integración para consumo de APIs.',
+                details: {
+                    ticket: '#1055', status: 'Stable',
+                    tech: ['JS/TS', 'Axios', 'REST API'],
+                    description: 'Módulo cliente para orquestar peticiones HTTP.',
+                    features: ['Interceptores', 'Manejo de errores', 'DTOs']
+                },
+                images: [{ url: 'https://placehold.co/600x400/1f2833/00ff00?text=Dashboard', caption: 'dash.jpg' }]
+            },
+            {
+                id: 'appjavalambda',
+                category: 'backend',
+                title: 'AppJavaLambda',
+                repoUrl: 'https://github.com/danielquincy/AppJavaLambda',
+                shortDesc: 'Funciones Serverless en AWS Lambda.',
+                details: {
+                    ticket: '#5001', status: 'Deployed',
+                    tech: ['Java 11', 'AWS Lambda', 'DynamoDB'],
+                    description: 'Funciones lambda puras para procesamiento asíncrono.',
+                    features: ['Cold start opt', 'API Gateway', 'SQS']
+                },
+                images: [{ url: 'https://placehold.co/600x400/000000/fctf00?text=AWS', caption: 'aws.png' }]
+            },
+            {
+                id: 'monitoreo',
+                category: 'backend',
+                title: 'Monitoreo System',
+                repoUrl: 'https://github.com/danielquincy/monitoreo',
+                shortDesc: 'Scripts de observabilidad.',
+                details: {
+                    ticket: '#9000', status: 'Active',
+                    tech: ['Python', 'Prometheus', 'Grafana'],
+                    description: 'Solución integral para supervisar la salud de microservicios.',
+                    features: ['Scraping', 'Alertas', 'Uptime']
+                },
+                images: [{ url: 'https://placehold.co/600x400/0b0c10/ff5f56?text=Grafana', caption: 'grafana.png' }]
+            }
+        ];
+
+        // --- RENDERIZADO ---
+        const backendContainer = document.getElementById('backend-container');
+        const frontendContainer = document.getElementById('frontend-container');
+        const modal = document.getElementById('modal');
+        const modalFilename = document.getElementById('modal-filename');
+        const modalContent = document.getElementById('modal-log-content');
+        const modalGallery = document.getElementById('modal-gallery');
+        const modalBtn = document.getElementById('modal-github-btn');
+
+        function renderProjects() {
+            projectsData.forEach(project => {
+                const card = document.createElement('div');
+                card.className = 'project-card';
+                card.onclick = () => openModal(project);
+                card.innerHTML = `
+                    <div class="card-icon">>_</div>
+                    <h3 class="card-title">${project.title}</h3>
+                    <p class="card-desc">${project.shortDesc}</p>
+                    <button class="btn-details">cat ${project.title}.info</button>
+                `;
+                if (project.category === 'frontend') frontendContainer.appendChild(card);
+                else backendContainer.appendChild(card);
+            });
+        }
+
+        function getLogTime() {
+            const now = new Date();
+            return `[${now.toISOString().split('T')[0]} ${now.toLocaleTimeString()}]`;
+        }
+
+        function openModal(project) {
+            modalFilename.innerText = `root@server:~/projects/${project.title}`;
+            modalBtn.href = project.repoUrl;
+            
+            let techStackHtml = project.details.tech.map(t => `<span style="background:rgba(69,162,158,0.2); border:1px solid #45a29e; padding:2px 5px; margin-right:5px; font-size:0.8rem;">${t}</span>`).join('');
+            let featuresHtml = project.details.features.map(f => `<li>- ${f}</li>`).join('');
+
+            modalContent.innerHTML = `
+                <div style="margin-bottom:0.5rem; display:flex;">
+                    <span style="color:#45a29e; margin-right:1rem;">${getLogTime()}</span>
+                    <span style="color:var(--text-primary)">INFO: Accessing secured files...</span>
+                </div>
+                <div>
+                    <h3 style="color:var(--text-primary); border-bottom:1px dashed var(--text-secondary); margin:1rem 0;">DESCRIPCIÓN</h3>
+                    <p style="color:var(--text-secondary); margin-bottom:1rem;">${project.details.description}</p>
+                    <h3 style="color:var(--text-primary); border-bottom:1px dashed var(--text-secondary); margin:1rem 0;">STACK</h3>
+                    <div style="margin-bottom:1rem;">${techStackHtml}</div>
+                    <h3 style="color:var(--text-primary); border-bottom:1px dashed var(--text-secondary); margin:1rem 0;">CARACTERÍSTICAS</h3>
+                    <ul style="list-style:none; padding-left:10px; color:var(--text-secondary);">${featuresHtml}</ul>
+                </div>
+            `;
+
+            modalGallery.innerHTML = '';
+            if (project.images && project.images.length > 0) {
+                project.images.forEach(img => {
+                    const frame = document.createElement('div');
+                    frame.className = 'gallery-frame';
+                    frame.innerHTML = `<img src="${img.url}" class="gallery-img"><div class="gallery-caption">file: ${img.caption}</div>`;
+                    modalGallery.appendChild(frame);
+                });
+            } else {
+                modalGallery.innerHTML = '<div style="color:#fctf00">> WARN: No visual assets found.</div>';
+            }
+            modal.classList.add('active');
+        }
+
+        function closeModal() { modal.classList.remove('active'); }
+        modal.addEventListener('click', (e) => { if (e.target === modal) closeModal(); });
+
+        // Typing Effect
+        const textToType = "Daniel Prado Amoretty";
+        const typingElement = document.getElementById('typing-text');
+        let i = 0;
+        function typeWriter() {
+            if (i < textToType.length) {
+                typingElement.innerHTML += textToType.charAt(i);
+                i++;
+                setTimeout(typeWriter, 150);
+            }
+        }
+
+        // SCROLL TO TOP LOGIC
+        const scrollTopBtn = document.getElementById("scrollTopBtn");
+
+        window.onscroll = function() { scrollFunction() };
+
+        function scrollFunction() {
+            // Mostrar botón si se ha bajado más de 200px
+            if (document.body.scrollTop > 200 || document.documentElement.scrollTop > 200) {
+                scrollTopBtn.style.display = "block";
+            } else {
+                scrollTopBtn.style.display = "none";
+            }
+        }
+
+        // Al hacer click, subir suavemente
+        scrollTopBtn.onclick = function() {
+            document.body.scrollTop = 0; // Para Safari
+            document.documentElement.scrollTop = 0; // Para Chrome, Firefox, IE y Opera
+        };
+
+        document.addEventListener('DOMContentLoaded', () => {
+            renderProjects();
+            setTimeout(typeWriter, 500);
+        });
+    </script>
+</body>
+</html>
