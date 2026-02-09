@@ -375,6 +375,12 @@
         .contact-btn:hover {
             filter: brightness(1.2);
         }
+        
+        .contact-btn:disabled {
+            background: var(--text-secondary);
+            cursor: not-allowed;
+            opacity: 0.7;
+        }
 
         .social-links {
             display: flex;
@@ -706,7 +712,7 @@
                 <div style="display: flex; flex-direction: column; align-items: center;">
                     <div class="contact-container">
                         <p style="margin-bottom: 1.5rem; color: var(--accent);">> Envíame un mensaje:</p>
-                        <!-- FORMULARIO SIN ALERTAS LOCALES (Listo para producción) -->
+                        <!-- FORMULARIO ACTUALIZADO PARA AJAX -->
                         <form id="contact-form" action="https://formsubmit.co/danielquincy@outlook.com" method="POST">
                             <input type="hidden" name="_captcha" value="false">
                             <input type="hidden" name="_subject" value="Nuevo mensaje del Portafolio!">
@@ -717,6 +723,8 @@
                             <textarea name="message" placeholder="Mensaje" class="contact-input" rows="5" required></textarea>
                             <button type="submit" class="contact-btn">SEND_MESSAGE.EXE</button>
                         </form>
+                        <!-- CONTENEDOR DE ESTADO DEL FORMULARIO -->
+                        <div id="form-status" style="margin-top: 1rem; font-weight: bold; text-align: center; display: none;"></div>
                     </div>
 
                     <div class="social-links">
@@ -953,11 +961,61 @@
             document.documentElement.scrollTop = 0; // Para Chrome, Firefox, IE y Opera
         };
 
+        // --- MANEJO DE FORMULARIO AJAX ---
         document.addEventListener('DOMContentLoaded', () => {
             renderProjects();
             setTimeout(typeWriter, 500);
+            
+            // Lógica para enviar el formulario sin recargar
+            const contactForm = document.getElementById('contact-form');
+            const formStatus = document.getElementById('form-status');
+
+            if (contactForm) {
+                contactForm.addEventListener('submit', function(e) {
+                    e.preventDefault(); // Evita el envío tradicional
+                    
+                    const btn = contactForm.querySelector('button');
+                    const originalBtnText = btn.innerText;
+                    
+                    // Estado de carga
+                    btn.innerText = 'SENDING...';
+                    btn.disabled = true;
+                    formStatus.style.display = 'none';
+
+                    const formData = new FormData(contactForm);
+
+                    // Envío a la URL AJAX de FormSubmit
+                    fetch("https://formsubmit.co/ajax/danielquincy@outlook.com", {
+                        method: "POST",
+                        body: formData
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if(data.success === "true" || data.success === true) {
+                            formStatus.innerHTML = '<span style="color:var(--success)">> Mensaje enviado satisfactoriamente.</span>';
+                            formStatus.style.display = 'block';
+                            contactForm.reset();
+                        } else {
+                            formStatus.innerHTML = '<span style="color:var(--warning)">> Error al enviar. Intente nuevamente.</span>';
+                            formStatus.style.display = 'block';
+                        }
+                    })
+                    .catch(error => {
+                        formStatus.innerHTML = '<span style="color:var(--warning)">> Error de conexión. Verifique su red.</span>';
+                        formStatus.style.display = 'block';
+                        console.error('Error:', error);
+                    })
+                    .finally(() => {
+                        btn.innerText = originalBtnText;
+                        btn.disabled = false;
+                        // Opcional: Ocultar mensaje después de unos segundos
+                        setTimeout(() => {
+                            formStatus.style.display = 'none';
+                        }, 5000);
+                    });
+                });
+            }
         });
     </script>
 </body>
 </html>
-
