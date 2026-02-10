@@ -8,6 +8,8 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <!-- FontAwesome para iconos -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
         /* --- CONFIGURACIÓN GENERAL Y VARIABLES (Modo Oscuro Moderno) --- */
@@ -606,13 +608,147 @@
             padding-bottom: 5px;
             display: inline-block;
         }
-
-        .gallery-frame {
+        
+        /* --- ESTILO DE CARRUSEL (MEJORADO Y MÁS COMPACTO) --- */
+        .carousel-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px; /* Ancho máximo ajustado para evitar que se vea muy ancho */
+            margin: 0 auto;   /* Centrado */
+            overflow: hidden;
             border: 1px solid var(--glass-border);
-            padding: 5px;
-            background: var(--gallery-bg); /* Variable dinámica */
-            margin-bottom: 15px;
-            border-radius: 4px;
+            border-radius: 8px;
+            background: var(--gallery-bg);
+        }
+
+        .carousel-track {
+            display: flex;
+            transition: transform 0.5s ease-in-out;
+            width: 100%;
+        }
+
+        .carousel-slide {
+            min-width: 100%;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background: #000;
+        }
+
+        .carousel-img {
+            width: 100%;
+            height: auto;
+            display: block;
+            object-fit: contain;
+            max-height: 300px; /* Un poco más de altura para compensar el ancho */
+            background: transparent;
+        }
+
+        .carousel-caption {
+            width: 100%;
+            padding: 8px;
+            text-align: center;
+            font-family: var(--font-mono);
+            font-size: 0.8rem;
+            background: rgba(0,0,0,0.7);
+            color: #ccc;
+            border-top: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .carousel-btn {
+            position: absolute;
+            top: 50%; /* Centrado verticalmente */
+            transform: translateY(-50%);
+            background: rgba(0, 0, 0, 0.6);
+            border: 1px solid rgba(255,255,255,0.2);
+            color: var(--text-primary);
+            font-size: 1.2rem;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            cursor: pointer;
+            z-index: 10;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+            backdrop-filter: blur(4px);
+        }
+
+        .carousel-btn:hover {
+            background: var(--text-primary);
+            color: var(--bg-color);
+        }
+
+        .carousel-btn.prev { left: 10px; }
+        .carousel-btn.next { right: 10px; }
+
+        .carousel-indicators {
+            display: flex;
+            justify-content: center;
+            gap: 6px;
+            margin-top: 8px;
+        }
+
+        .carousel-dot {
+            width: 6px;
+            height: 6px;
+            background: var(--glass-border);
+            border-radius: 50%;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .carousel-dot.active {
+            background: var(--text-primary);
+            box-shadow: 0 0 5px var(--text-primary);
+        }
+
+        /* --- ESTILOS PARA LISTA DE APTITUDES (NUEVO) --- */
+        .skills-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+            gap: 15px;
+            margin-top: 1rem;
+        }
+
+        .skill-badge {
+            background: rgba(0, 243, 255, 0.05);
+            border: 1px solid var(--glass-border);
+            color: var(--text-secondary);
+            padding: 15px 10px;
+            border-radius: 8px;
+            text-align: center;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .skill-badge i {
+            font-size: 1.5rem;
+            color: var(--text-primary);
+            margin-bottom: 5px;
+        }
+
+        .skill-badge span {
+            font-family: var(--font-mono);
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .skill-badge:hover {
+            background: var(--text-primary);
+            color: var(--bg-color);
+            transform: translateY(-5px);
+            border-color: var(--text-primary);
+        }
+        
+        .skill-badge:hover i {
+            color: var(--bg-color);
         }
 
         /* --- BOTONES DEL MODAL MEJORADOS --- */
@@ -728,9 +864,11 @@
             <ul class="nav-menu">
                 <li class="nav-item"><a href="#home"><span class="nav-icon">01.</span>Inicio</a></li>
                 <li class="nav-item"><a href="#about"><span class="nav-icon">02.</span>Acerca de mí</a></li>
-                <li class="nav-item"><a href="#tech"><span class="nav-icon">03.</span>Tecnologías</a></li>
+                <li class="nav-item"><a href="#experience"><span class="nav-icon">03.</span>Experiencia</a></li>
                 <li class="nav-item"><a href="#projects"><span class="nav-icon">04.</span>Proyectos</a></li>
-                <li class="nav-item"><a href="#contact"><span class="nav-icon">05.</span>Contacto</a></li>
+                <li class="nav-item"><a href="#tech"><span class="nav-icon">05.</span>Tecnologías</a></li>
+                <li class="nav-item"><a href="#conferences"><span class="nav-icon">06.</span>Conferencias</a></li>
+                <li class="nav-item"><a href="#contact"><span class="nav-icon">07.</span>Contacto</a></li>
             </ul>
         </aside>
 
@@ -768,6 +906,39 @@
                 </div>
             </section>
 
+             <!-- NUEVA SECCIÓN EXPERIENCIA -->
+             <section id="experience">
+                <div class="section-header">
+                    <h2 class="section-title">Experiencia</h2>
+                </div>
+                <div class="projects-grid" id="experience-container">
+                    <!-- JS Injected (Experiencia) -->
+                </div>
+            </section>
+
+            <!-- PROJECTS -->
+            <section id="projects">
+                <div class="section-header">
+                    <h2 class="section-title">Proyectos</h2>
+                </div>
+
+                <div class="category-subheader">
+                    <span>// BACKEND_SYSTEMS</span>
+                </div>
+                <div class="projects-grid" id="backend-container">
+                    <!-- JS Injected -->
+                </div>
+
+                <div class="category-subheader">
+                    <span>// FRONTEND_INTERFACE</span>
+                </div>
+             
+                <div class="projects-grid" id="frontend-container">
+                  <!--  JS Injected -->
+                </div>
+
+            </section>
+
             <!-- TECH -->
             <section id="tech">
                 <div class="section-header">
@@ -789,27 +960,18 @@
                     <div class="tech-card">Linux</div>
                     <div class="tech-card">REST API</div>
                     <div class="tech-card">CI/CD</div>
+                    <div class="tech-card">IA</div>
+                    <div class="tech-card">PYTHON</div>
                 </div>
             </section>
 
-            <!-- PROJECTS -->
-            <section id="projects">
+            <!-- NUEVA SECCIÓN CONFERENCIAS -->
+            <section id="conferences">
                 <div class="section-header">
-                    <h2 class="section-title">Proyectos</h2>
+                    <h2 class="section-title">Conferencias</h2>
                 </div>
-
-                <div class="category-subheader">
-                    <span>// BACKEND_SYSTEMS</span>
-                </div>
-                <div class="projects-grid" id="backend-container">
-                    <!-- JS Injected -->
-                </div>
-
-                <div class="category-subheader">
-                    <span>// FRONTEND_INTERFACE</span>
-                </div>
-                <div class="projects-grid" id="frontend-container">
-                    <!-- JS Injected -->
+                <div class="projects-grid" id="conferences-container">
+                    <!-- JS Injected (Conferencias) -->
                 </div>
             </section>
 
@@ -872,8 +1034,8 @@
                     </div>
                 </div>
                 <div class="gallery-section">
-                    <h3>VISTA PREVIA</h3>
-                    <div id="modal-gallery" class="gallery-container"></div>
+                    <h3 id="modal-gallery-title">GALERÍA DEL PROYECTO</h3>
+                    <div id="modal-gallery"></div>
                 </div>
             </div>
         </div>
@@ -902,7 +1064,7 @@
             themeToggleBtn.innerHTML = theme === 'light' ? '☾' : '☀';
         }
 
-        // --- DATOS ---
+        // --- DATOS DE PROYECTOS ---
         const projectsData = [
             {
                 id: 'ms_usuario',
@@ -916,7 +1078,18 @@
                     description: 'Sistema backend encargado de la autenticación y autorización segura.',
                     features: ['CRUD Usuarios', 'BCrypt', 'JWT', 'Roles']
                 },
-                images: [{ url: 'https://placehold.co/600x400/000000/66fcf1?text=Architecture', caption: 'arch.png' }]
+                images: [
+                    { url: 'img/ms_usuario/1.png', caption: 'Arquitectura de Paquetes' },
+                    { url: 'img/ms_usuario/2.png', caption: 'Composición' },
+                    { url: 'img/ms_usuario/GetAll.png', caption: 'GetAll' },
+                    { url: 'img/ms_usuario/GetById.png', caption: 'GetById' },
+                    { url: 'img/ms_usuario/Patch1.png', caption: 'Patch' },
+                    { url: 'img/ms_usuario/Patch2.png', caption: 'Patch' },
+                    { url: 'img/ms_usuario/Post1.png', caption: 'Post' },
+                    { url: 'img/ms_usuario/Post2.png', caption: 'Post' },
+                    { url: 'img/ms_usuario/Put1.png', caption: 'Put' },
+                    { url: 'img/ms_usuario/Put2.png', caption: 'Put' }
+                ]
             },
             {
                 id: 'cliente',
@@ -962,61 +1135,312 @@
             }
         ];
 
+        // --- DATOS DE EXPERIENCIA ---
+        const experienceData = [
+            {
+                id: 'job1',
+                category: 'experience',
+                title: 'Java Developer',
+                repoUrl: '#',
+                shortDesc: 'Instituto Nicaragüense de Seguridad Social | 2020 - Presente',
+                details: {
+                    ticket: 'Employee', status: 'Active',
+                    tech: ['Java','Hibernate', 'Spring Boot',, 'Javascript', 'PostgreSQL','Docker', 'Kubernetes'], 
+                    description: 'Lideré el desarrollo y mantenimiento de sistemas de información críticos para los sectores de Seguro Social y Farmacia, utilizando tecnologías como JavaEE, Spring Boot, JavaScript, Hibernate, Servicios Web, Java Server Faces, Transact-SQL, PostgreSQL, ASP.NET 6, Sencha Architect y pipelines de CI/CD con Git, Jenkins, Docker y Kubernetes.', 
+                    features: [
+                        'Empresa: Instituto Nicaragüense de Seguridad Social',
+                        'Rol: Java Developer',
+                        'Período: Enero 2020 - Presente'
+                    ]
+                },
+                // Lista de Aptitudes (en lugar de imágenes)
+                aptitudes: [
+                    { name: 'Desarrollo en Java', icon: 'fab fa-java' },
+                    { name: 'Arquitectura de Software', icon: 'fas fa-sitemap' },
+                    { name: 'Liderazgo Técnico', icon: 'fas fa-users' },
+                    { name: 'Cloud Computing', icon: 'fas fa-cloud' },
+                    { name: 'Bases de Datos', icon: 'fas fa-network-wired' },
+                    { name: 'CI/CD Pipelines', icon: 'fas fa-rocket' }
+                    
+                ]
+            },
+            {
+                id: 'job2',
+                category: 'experience',
+                title: 'Consultor MTH',
+                repoUrl: '#',
+                shortDesc: 'Op-Tech Outsourcing Partners | 2016 - 2019',
+                details: {
+                    ticket: 'Employee', status: 'Completed',
+                    tech: ['Linux','RedHat', 'Oracle DB 12 c', 'MTH', 'AltamirA'], 
+                    description: 'Trabajé en la gestión de promociones regionales para Telefónica mediante la parametrización de nuevos servicios, cumpliendo con los requisitos dinámicos de los sectores comerciales en Centroamérica.', 
+                    features: [
+                        'Empresa: Op-Tech Outsourcing Partner',
+                        'Rol: Consultor MTH',
+                        'Período: Agosto 2016 - Marzo 2019)'
+                    ]
+                },
+                aptitudes: [
+                    { name: 'Desarrollo Bases de Datos', icon: 'fas fa-network-wired' },
+                    { name: 'Scrum / Agile', icon: 'fas fa-tasks' },
+                    { name: 'Resolución de Problemas', icon: 'fas fa-brain' },
+                    { name: 'Trabajo en Equipo', icon: 'fas fa-people-carry' },
+                    { name: 'Atención al Cliente', icon: 'fas fa-user-alt' },
+                    { name: 'Gestión de Cambios', icon: 'fas fa-chart-line' }                    	
+                ]
+            },
+            {
+                id: 'job3',
+                category: 'experience',
+                title: 'Soporte Técnico',
+                repoUrl: '#',
+                shortDesc: 'YOTA de Nicaragua | 2015',
+                details: {
+                    ticket: 'Employee', status: 'Completed',
+                    tech: ['Linux','Windows', 'Soporte Técnico', 'Atención al Cliente'], 
+                    description: 'Realicé diagnósticos, reparaciones y configuraciones de equipos, asegurando altos estándares de calidad en el servicio y satisfacción del cliente.', 
+                    features: [
+                        'Empresa: YOTA de Nicaragua',
+                        'Rol: Soporte Técnico',
+                        'Período: Marzo 2015 - Noviembre 2015))'
+                    ]
+                },
+                aptitudes: [
+                    { name: 'Soporte Técnico', icon: 'fas fa-users-cog' },
+                    { name: 'Atención al Cliente', icon: 'fas fa-user-alt' },
+                    { name: 'Resolución de Problemas', icon: 'fas fa-brain' },
+                    { name: 'Trabajo en Equipo', icon: 'fas fa-people-carry' }                    	
+                ]
+            }
+        ];
+
+        // --- DATOS DE CONFERENCIAS ---
+        const conferencesData = [
+            {
+                id: 'nerdify_devtalks',
+                category: 'conference',
+                title: 'Nerdify DevTalks',
+                repoUrl: '#', // No hay repo, se manejará en la lógica
+                shortDesc: 'Ponencia sobre arquitectura y patrones con Java.',
+                details: {
+                    ticket: 'Speaker', status: 'Completed',
+                    // Mapeo Tópicos
+                    tech: ['Java', 'Patrones de Diseño'], 
+                    // Mapeo Comentarios Extras
+                    description: 'Una experiencia enriquecedora donde exploramos cómo los patrones Creacionales, Estructurales y de Comportamiento pueden transformar código complejo en arquitecturas limpias.', 
+                    // Mapeo Info Específica
+                    features: [
+                        'Tema: Patrones de Diseño con Java',
+                        'Lugar: Universidad Nacional de Ingeniería',
+                        'Fecha: 30 de Septiembre 2023'
+                    ]
+                },
+                images: [
+                    { url: 'img/conferencias/devtalks/0.png', caption: 'Devtalks Nerdify' },
+                    { url: 'img/conferencias/devtalks/2.png', caption: 'Devtalks Nerdify' },
+                    { url: 'img/conferencias/devtalks/3.png', caption: 'Devtalks Nerdify' },
+                    { url: 'img/conferencias/devtalks/4.png', caption: 'Devtalks Nerdify' },
+                    { url: 'img/conferencias/devtalks/5.png', caption: 'Devtalks Nerdify' },
+                    { url: 'img/conferencias/devtalks/6.png', caption: 'Devtalks Nerdify' },
+                    { url: 'img/conferencias/devtalks/7.png', caption: 'Devtalks Nerdify' },
+                    { url: 'img/conferencias/devtalks/8.png', caption: 'Devtalks Nerdify' }
+                ]
+            }
+        ];
+
         // --- RENDERIZADO ---
         const backendContainer = document.getElementById('backend-container');
         const frontendContainer = document.getElementById('frontend-container');
+        const conferencesContainer = document.getElementById('conferences-container');
+        const experienceContainer = document.getElementById('experience-container'); // Nuevo contenedor
+        
         const modal = document.getElementById('modal');
         const modalFilename = document.getElementById('modal-filename');
         const modalContent = document.getElementById('modal-log-content');
         const modalGallery = document.getElementById('modal-gallery');
+        const modalGalleryTitle = document.getElementById('modal-gallery-title'); // Título dinámico
         const modalBtn = document.getElementById('modal-github-btn');
 
+        // Variables globales para el carrusel
+        let currentSlideIndex = 0;
+        let totalSlides = 0;
+
         function renderProjects() {
+            // Renderizar Proyectos
             projectsData.forEach(project => {
-                const card = document.createElement('div');
-                card.className = 'project-card';
-                card.onclick = () => openModal(project);
-                card.innerHTML = `
-                    <div class="card-icon"><i class="fas fa-terminal">>_</i></div>
-                    <h3 class="card-title">${project.title}</h3>
-                    <p class="card-desc">${project.shortDesc}</p>
-                    <button class="btn-details">VER DETALLES</button>
-                `;
+                const card = createCard(project);
                 if (project.category === 'frontend') frontendContainer.appendChild(card);
                 else backendContainer.appendChild(card);
             });
+
+            // Renderizar Experiencia (NUEVO)
+            experienceData.forEach(job => {
+                const card = createCard(job);
+                experienceContainer.appendChild(card);
+            });
+
+            // Renderizar Conferencias
+            conferencesData.forEach(conf => {
+                const card = createCard(conf);
+                conferencesContainer.appendChild(card);
+            });
         }
 
-        function openModal(project) {
-            modalFilename.innerText = `root@server:~/projects/${project.title}`;
-            modalBtn.href = project.repoUrl;
+        // Función auxiliar para crear tarjetas
+        function createCard(item) {
+            const card = document.createElement('div');
+            card.className = 'project-card';
+            card.onclick = () => openModal(item);
             
-            let techStackHtml = project.details.tech.map(t => `<span style="background:rgba(0, 243, 255, 0.1); border:1px solid rgba(0, 243, 255, 0.3); padding:4px 8px; margin-right:5px; border-radius:4px; font-size:0.8rem; color: var(--text-primary); display:inline-block; margin-bottom:5px;">${t}</span>`).join('');
-            let featuresHtml = project.details.features.map(f => `<li style="margin-bottom:5px;">• ${f}</li>`).join('');
+            // Icono diferente según categoría
+            let icon = '<i class="fas fa-terminal"></i>';
+            if (item.category === 'conference') icon = '<i class="fas fa-microphone"></i>';
+            if (item.category === 'experience') icon = '<i class="fas fa-briefcase"></i>';
+
+            let btnText = 'VER DETALLES';
+            if (item.category === 'conference') btnText = 'VER INFO';
+            if (item.category === 'experience') btnText = 'VER APTITUDES';
+
+            card.innerHTML = `
+                <div class="card-icon">${icon}</div>
+                <h3 class="card-title">${item.title}</h3>
+                <p class="card-desc">${item.shortDesc}</p>
+                <button class="btn-details">${btnText}</button>
+            `;
+            return card;
+        }
+
+        function openModal(item) {
+            // Ajustar título de ventana según tipo
+            let pathType = 'projects';
+            if (item.category === 'conference') pathType = 'talks';
+            if (item.category === 'experience') pathType = 'jobs';
+            
+            modalFilename.innerText = `root@server:~/${pathType}/${item.title}`;
+            
+            // Ajustar botón de repositorio (ocultar para experiencia si no hay link)
+            if (item.repoUrl === '#' || !item.repoUrl) {
+                modalBtn.style.display = 'none'; 
+            } else {
+                modalBtn.style.display = 'flex';
+                modalBtn.href = item.repoUrl;
+                modalBtn.innerHTML = 'VER CÓDIGO (GITHUB)';
+            }
+            
+            let techStackHtml = item.details.tech.map(t => `<span style="background:rgba(0, 243, 255, 0.1); border:1px solid rgba(0, 243, 255, 0.3); padding:4px 8px; margin-right:5px; border-radius:4px; font-size:0.8rem; color: var(--text-primary); display:inline-block; margin-bottom:5px;">${t}</span>`).join('');
+            let featuresHtml = item.details.features.map(f => `<li style="margin-bottom:5px;">• ${f}</li>`).join('');
+
+            // Títulos dinámicos según tipo
+            let descTitle = 'DESCRIPCIÓN';
+            let stackTitle = 'STACK TECNOLÓGICO';
+            let featTitle = 'CARACTERÍSTICAS';
+
+            if (item.category === 'conference') {
+                descTitle = 'COMENTARIOS EXTRAS';
+                stackTitle = 'TÓPICOS';
+                featTitle = 'DETALLES DEL EVENTO';
+            } else if (item.category === 'experience') {
+                descTitle = 'RESPONSABILIDADES';
+                stackTitle = 'TECNOLOGÍAS CLAVE';
+                featTitle = 'DETALLES DEL PUESTO';
+            }
 
             modalContent.innerHTML = `
                 <div>
-                    <h3>DESCRIPCIÓN</h3>
-                    <p style="color:var(--modal-text); margin-bottom:1rem; line-height:1.6;">${project.details.description}</p>
-                    <h3>STACK TECNOLÓGICO</h3>
+                    <h3>${featTitle}</h3>
+                    <ul style="list-style:none; padding-left:0; color:var(--modal-text); margin-bottom:1rem;">${featuresHtml}</ul>
+                    
+                    <h3>${stackTitle}</h3>
                     <div style="margin-bottom:1rem;">${techStackHtml}</div>
-                    <h3>CARACTERÍSTICAS</h3>
-                    <ul style="list-style:none; padding-left:0; color:var(--modal-text);">${featuresHtml}</ul>
+
+                    <h3>${descTitle}</h3>
+                    <p style="color:var(--modal-text); margin-bottom:1rem; line-height:1.6;">${item.details.description}</p>
                 </div>
             `;
 
+            // Lógica de visualización derecha: Galería vs Aptitudes
             modalGallery.innerHTML = '';
-            if (project.images && project.images.length > 0) {
-                project.images.forEach(img => {
-                    const frame = document.createElement('div');
-                    frame.className = 'gallery-frame';
-                    frame.innerHTML = `<img src="${img.url}" class="gallery-img"><div class="gallery-caption">file: ${img.caption}</div>`;
-                    modalGallery.appendChild(frame);
-                });
+            
+            if (item.category === 'experience') {
+                // MODO APTITUDES
+                modalGalleryTitle.innerText = "APTITUDES APLICADAS";
+                let aptitudesHtml = item.aptitudes.map(apt => `
+                    <div class="skill-badge">
+                        <i class="${apt.icon}"></i>
+                        <span>${apt.name}</span>
+                    </div>
+                `).join('');
+                
+                modalGallery.innerHTML = `<div class="skills-container">${aptitudesHtml}</div>`;
+
             } else {
-                modalGallery.innerHTML = '<div style="color:var(--warning); font-family:var(--font-mono);">> WARN: No visual assets found.</div>';
+                // MODO CARRUSEL (Proyectos y Conferencias)
+                modalGalleryTitle.innerText = "GALERÍA";
+                if (item.images && item.images.length > 0) {
+                    currentSlideIndex = 0;
+                    totalSlides = item.images.length;
+                    
+                    let slidesHtml = '';
+                    let indicatorsHtml = '';
+
+                    item.images.forEach((img, index) => {
+                        slidesHtml += `
+                            <div class="carousel-slide">
+                                <img src="${img.url}" class="carousel-img" alt="${img.caption}" onerror="this.src='https://placehold.co/600x400/000000/FFF?text=Image+${index+1}'">
+                                <div class="carousel-caption">${img.caption}</div>
+                            </div>
+                        `;
+                        indicatorsHtml += `<div class="carousel-dot ${index === 0 ? 'active' : ''}" onclick="setSlide(${index})"></div>`;
+                    });
+
+                    modalGallery.innerHTML = `
+                        <div class="carousel-container">
+                            <button class="carousel-btn prev" onclick="moveSlide(-1)">&#10094;</button>
+                            <button class="carousel-btn next" onclick="moveSlide(1)">&#10095;</button>
+                            
+                            <div class="carousel-track" id="carouselTrack">
+                                ${slidesHtml}
+                            </div>
+
+                            <div class="carousel-indicators" id="carouselIndicators">
+                                ${indicatorsHtml}
+                            </div>
+                        </div>
+                    `;
+                } else {
+                    modalGallery.innerHTML = '<div style="color:var(--warning); font-family:var(--font-mono);">> WARN: No visual assets found.</div>';
+                }
             }
             modal.classList.add('active');
+        }
+
+        // Funciones del Carrusel
+        function moveSlide(step) {
+            currentSlideIndex += step;
+            if (currentSlideIndex >= totalSlides) currentSlideIndex = 0;
+            if (currentSlideIndex < 0) currentSlideIndex = totalSlides - 1;
+            updateCarousel();
+        }
+
+        function setSlide(index) {
+            currentSlideIndex = index;
+            updateCarousel();
+        }
+
+        function updateCarousel() {
+            const track = document.getElementById('carouselTrack');
+            const dots = document.querySelectorAll('.carousel-dot');
+            
+            // Mover el track
+            if(track) {
+                track.style.transform = `translateX(-${currentSlideIndex * 100}%)`;
+            }
+
+            // Actualizar puntos
+            dots.forEach((dot, idx) => {
+                if (idx === currentSlideIndex) dot.classList.add('active');
+                else dot.classList.remove('active');
+            });
         }
 
         function closeModal() { modal.classList.remove('active'); }
@@ -1101,4 +1525,3 @@
     </script>
 </body>
 </html>
-
