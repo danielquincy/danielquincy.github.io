@@ -4,10 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Portafolio | Daniel Prado Amoretty</title>
-
-     <!-- ICONO DE PESTAÑA (FAVICON) - Prompt de Terminal >_ -->
+  <!-- ICONO DE PESTAÑA (FAVICON) - Prompt de Terminal >_ -->
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect width=%22100%22 height=%22100%22 rx=%2220%22 fill=%22%23050505%22/><text x=%2250%25%22 y=%2255%25%22 font-family=%22monospace%22 font-weight=%22bold%22 font-size=%2250%22 fill=%22%2300f3ff%22 text-anchor=%22middle%22 dominant-baseline=%22middle%22>&gt;_</text></svg>">
-  
+    
+
     <!-- Importamos fuentes modernas: 'Outfit' (Sans) y 'JetBrains Mono' (Code) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -21,7 +21,7 @@
             --bg-color: #050505; /* Negro profundo */
             --glass-bg: rgba(20, 25, 30, 0.7); /* Panel semitransparente oscuro */
             --glass-border: rgba(255, 255, 255, 0.08);
-            --sidebar-bg: rgba(10, 10, 12, 0.85); /* Sidebar glass */
+            --sidebar-bg: rgba(10, 10, 12, 0.95); /* Sidebar casi sólido */
             
             --text-primary: #00f3ff; /* Cian eléctrico moderno */
             --text-secondary: #a0a0a0;
@@ -51,7 +51,7 @@
             --bg-color: #f0f2f5;
             --glass-bg: rgba(255, 255, 255, 0.8);
             --glass-border: rgba(0, 0, 0, 0.05);
-            --sidebar-bg: rgba(255, 255, 255, 0.9);
+            --sidebar-bg: rgba(255, 255, 255, 0.95);
             
             --text-primary: #0066cc; /* Azul tech */
             --text-secondary: #555555;
@@ -112,7 +112,6 @@
             display: flex;
             min-height: 100vh;
             position: relative;
-            z-index: 3;
         }
 
         /* --- SIDEBAR MODERN --- */
@@ -130,8 +129,8 @@
             height: 100vh;
             top: 0;
             left: 0;
-            z-index: 10;
-            transition: all 0.3s ease;
+            z-index: 100; /* Sidebar z-index en escritorio */
+            transition: transform 0.3s ease, background-color 0.3s ease;
             box-shadow: 5px 0 30px rgba(0,0,0,0.1);
         }
 
@@ -386,6 +385,55 @@
         }
 
         .project-card:hover::before { height: 100%; }
+        
+        /* ESTILOS ESPECÍFICOS PARA MINI TARJETAS ACADÉMICAS */
+        .academic-card {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 12px;
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            backdrop-filter: blur(8px);
+            position: relative;
+        }
+
+        .academic-card:hover {
+            border-color: var(--text-primary);
+            box-shadow: 0 5px 20px rgba(0, 243, 255, 0.15);
+            transform: translateY(-5px);
+        }
+
+        .academic-icon {
+            font-size: 1.5rem;
+            color: var(--text-primary);
+            margin-bottom: 1rem;
+        }
+
+        .academic-title {
+            font-family: var(--font-main);
+            font-weight: 700;
+            font-size: 1.1rem;
+            color: var(--text-white);
+            margin-bottom: 0.5rem;
+        }
+
+        .academic-place {
+            font-family: var(--font-mono);
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+        }
+
+        .academic-link {
+            font-size: 0.8rem;
+            color: var(--text-primary);
+            text-decoration: underline;
+            text-underline-offset: 4px;
+        }
 
         .card-icon {
             font-size: 2rem;
@@ -513,11 +561,18 @@
             background: rgba(0, 243, 255, 0.05);
         }
 
-        /* --- THEME TOGGLE --- */
-        .theme-toggle-btn {
+        /* --- THEME TOGGLE & LANG TOGGLE --- */
+        .controls-container {
             position: fixed;
-            top: 20px; right: 20px;
-            z-index: 101;
+            top: 20px;
+            right: 20px;
+            z-index: 101; /* Debajo del overlay (1000) */
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .control-btn {
             background: var(--glass-bg);
             backdrop-filter: blur(10px);
             border: 1px solid var(--glass-border);
@@ -528,16 +583,56 @@
             align-items: center;
             justify-content: center;
             cursor: pointer;
-            font-size: 1.4rem;
+            font-size: 1.2rem;
             transition: all 0.3s ease;
             box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            font-family: var(--font-mono);
+            font-weight: bold;
         }
 
-        .theme-toggle-btn:hover {
+        .control-btn:hover {
             background: var(--text-primary);
             color: var(--bg-color);
-            transform: scale(1.1) rotate(15deg);
+            transform: scale(1.1);
         }
+        
+        /* --- ESTILOS MENÚ HAMBURGUESA MÓVIL (MEJORADO) --- */
+        .mobile-menu-btn {
+            display: none; /* Oculto en escritorio */
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 2001; /* Por encima del sidebar (2000) */
+            background: var(--sidebar-bg); /* Fondo más sólido */
+            backdrop-filter: blur(12px);
+            border: 1px solid var(--glass-border);
+            color: var(--text-primary);
+            width: 50px; height: 50px; /* Un poco más grande para dedo */
+            border-radius: 12px;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 1.4rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.4);
+        }
+
+        .mobile-menu-btn:hover {
+            background: var(--text-primary);
+            color: var(--bg-color);
+            transform: scale(1.05);
+        }
+
+        /* Overlay para oscurecer fondo al abrir menú móvil */
+        .sidebar-overlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.5);
+            backdrop-filter: blur(3px);
+            z-index: 1000; /* Encima de contenido (0) y controles (101), debajo de sidebar (2000) */
+        }
+        .sidebar-overlay.active { display: block; }
 
         /* --- MODAL (ACTUALIZADO PARA SOPORTAR TEMA CLARO) --- */
         .modal-overlay {
@@ -548,7 +643,7 @@
             display: none;
             justify-content: center;
             align-items: center;
-            z-index: 200;
+            z-index: 3000; /* Máxima prioridad, encima de todo */
         }
 
         .modal-overlay.active { display: flex; animation: fadeIn 0.3s ease-in-out; }
@@ -598,9 +693,60 @@
             color: var(--modal-text);
         }
 
-        /* Responsive Modal */
-        @media (max-width: 800px) {
-            .modal-body { grid-template-columns: 1fr; }
+        /* Responsive Modal (MEJORADO) */
+        @media (max-width: 900px) {
+            .layout-container { flex-direction: column; }
+            
+            /* Ajuste del sidebar para comportamiento Drawer */
+            .sidebar { 
+                position: fixed;
+                top: 0;
+                left: 0;
+                height: 100vh;
+                width: 260px;
+                transform: translateX(-100%);
+                border-right: 1px solid var(--glass-border);
+                border-bottom: none;
+                padding: 2rem;
+                z-index: 2000;
+            }
+
+            .sidebar.active { transform: translateX(0); }
+            .mobile-menu-btn { display: flex; }
+            .nav-menu { flex-direction: column; justify-content: flex-start; flex-wrap: nowrap; }
+            .main-content-area { margin-left: 0; width: 100%; }
+            h1 { font-size: 2.5rem; }
+            .section-title { font-size: 2rem; }
+            .about-container { flex-direction: column; text-align: center; }
+            
+            /* MODAL RESPONSIVE MEJORADO (SOLUCIÓN ANCHO) */
+            .modal-content { 
+                width: 85%; /* Dejamos 15% de margen lateral */
+                max-width: 500px; /* Tope en pantallas intermedias */
+                max-height: 85vh; 
+                margin: 0 auto; /* Centrado seguro */
+            }
+            .modal-body { 
+                grid-template-columns: 1fr; 
+                padding: 1.5rem; 
+                gap: 1.5rem;
+            }
+        }
+
+        /* REGLAS EXTRA PARA MÓVILES PEQUEÑOS */
+        @media (max-width: 480px) {
+            .modal-body {
+                padding: 1rem; /* Padding mínimo */
+            }
+            .modal-content {
+                width: 90%; /* Un poco más de espacio en pantallas muy pequeñas */
+            }
+            .carousel-img {
+                max-height: 250px; 
+            }
+            .action-buttons {
+                flex-direction: column; 
+            }
         }
 
         .log-section h3, .gallery-section h3 {
@@ -613,16 +759,17 @@
             display: inline-block;
         }
         
-        /* --- ESTILO DE CARRUSEL (MEJORADO Y MÁS COMPACTO) --- */
+        /* --- ESTILO DE CARRUSEL (CORREGIDO Y RESPONSIVE) --- */
         .carousel-container {
             position: relative;
             width: 100%;
-            max-width: 600px; /* Ancho máximo ajustado para evitar que se vea muy ancho */
-            margin: 0 auto;   /* Centrado */
+            max-width: 600px; 
+            margin: 0 auto; 
             overflow: hidden;
             border: 1px solid var(--glass-border);
             border-radius: 8px;
             background: var(--gallery-bg);
+            /* Importante para mantener proporción si es necesario, pero auto funciona bien */            
         }
 
         .carousel-track {
@@ -632,7 +779,9 @@
         }
 
         .carousel-slide {
-            min-width: 100%;
+            /* Cambio CLAVE: flex-shrink 0 y width 100% para evitar deformación */            
+            flex: 0 0 100%; 
+            width: 100%;
             box-sizing: border-box;
             display: flex;
             flex-direction: column;
@@ -641,12 +790,15 @@
             background: #000;
         }
 
-        .carousel-img {
-            width: 100%;
-            height: auto;
+        .carousel-img {    
+            /* SOLUCIÓN DEFORMACIÓN VERTICAL */
+            width: auto;           /* Antes 100%, ahora auto para respetar ratio */
+            max-width: 100%;       /* Nunca exceder el ancho del contenedor */
+            height: auto;          
             display: block;
-            object-fit: contain;
-            max-height: 300px; /* Un poco más de altura para compensar el ancho */
+            object-fit: contain;   /* Ajuste seguro */
+            max-height: 55vh;      /* Altura responsiva (55% del viewport) en vez de px fijos */
+            margin: 0 auto;        /* Centrado horizontal */
             background: transparent;
         }
 
@@ -679,11 +831,6 @@
             justify-content: center;
             transition: all 0.3s;
             backdrop-filter: blur(4px);
-        }
-
-        .carousel-btn:hover {
-            background: var(--text-primary);
-            color: var(--bg-color);
         }
 
         .carousel-btn.prev { left: 10px; }
@@ -796,6 +943,20 @@
             transform: translateY(-3px);
         }
 
+        /* Estilo para botón deshabilitado (Waitlist) */
+        .repo-link-btn.disabled {
+            border-color: var(--text-secondary);
+            color: var(--text-secondary);
+            cursor: not-allowed;
+            opacity: 0.7;
+            box-shadow: none;
+        }
+        .repo-link-btn.disabled:hover {
+            background: transparent;
+            transform: none;
+            box-shadow: none;
+        }
+
         /* Estilo Botón Demo (Si existe) */
         .demo-link-btn {
             background: transparent;
@@ -822,21 +983,6 @@
             color: var(--text-secondary);
         }
 
-        @media (max-width: 900px) {
-            .layout-container { flex-direction: column; }
-            .sidebar { 
-                width: 100%; height: auto; position: relative; 
-                border-right: none; border-bottom: 1px solid var(--glass-border);
-                padding: 1rem;
-            }
-            .nav-menu { flex-direction: row; justify-content: center; flex-wrap: wrap; }
-            .main-content-area { margin-left: 0; width: 100%; }
-            h1 { font-size: 2.5rem; }
-            .section-title { font-size: 2rem; }
-            .about-container { flex-direction: column; text-align: center; }
-            .modal-content { width: 95%; }
-        }
-
         @keyframes fadeIn { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
         
         /* SCROLL TOP BTN */
@@ -853,10 +999,23 @@
 </head>
 <body>
 
-    <!-- BOTÓN TOGGLE TEMA -->
-    <button class="theme-toggle-btn" id="themeToggle" title="Cambiar Tema">
-        ☀
+    <!-- OVERLAY PARA MÓVIL -->
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+    <!-- BOTÓN HAMBURGUESA MÓVIL -->
+    <button class="mobile-menu-btn" id="mobileMenuBtn">
+        <i class="fas fa-bars"></i>
     </button>
+
+    <!-- CONTROLES FLOTANTES -->
+    <div class="controls-container">
+        <button class="control-btn" id="themeToggle" title="Cambiar Tema">
+            ☀
+        </button>
+        <button class="control-btn" id="langToggle" title="Change Language">
+            ES
+        </button>
+    </div>
 
     <div class="layout-container">
         
@@ -866,13 +1025,14 @@
                 > MENU_
             </h2>
             <ul class="nav-menu">
-                <li class="nav-item"><a href="#home"><span class="nav-icon">01.</span>Inicio</a></li>
-                <li class="nav-item"><a href="#about"><span class="nav-icon">02.</span>Acerca de mí</a></li>
-                <li class="nav-item"><a href="#experience"><span class="nav-icon">03.</span>Experiencia</a></li>
-                <li class="nav-item"><a href="#projects"><span class="nav-icon">04.</span>Proyectos</a></li>
-                <li class="nav-item"><a href="#tech"><span class="nav-icon">05.</span>Tecnologías</a></li>
-                <li class="nav-item"><a href="#conferences"><span class="nav-icon">06.</span>Conferencias</a></li>
-                <li class="nav-item"><a href="#contact"><span class="nav-icon">07.</span>Contacto</a></li>
+                <li class="nav-item"><a href="#home"><span class="nav-icon">01.</span><span id="nav-home">Inicio</span></a></li>
+                <li class="nav-item"><a href="#about"><span class="nav-icon">02.</span><span id="nav-about">Acerca de mí</span></a></li>
+                <li class="nav-item"><a href="#academic"><span class="nav-icon">03.</span><span id="nav-academic">Académico</span></a></li>
+                <li class="nav-item"><a href="#experience"><span class="nav-icon">04.</span><span id="nav-experience">Experiencia</span></a></li>
+                <li class="nav-item"><a href="#projects"><span class="nav-icon">05.</span><span id="nav-projects">Proyectos</span></a></li>
+                <li class="nav-item"><a href="#tech"><span class="nav-icon">06.</span><span id="nav-tech">Tecnologías</span></a></li>
+                <li class="nav-item"><a href="#conferences"><span class="nav-icon">07.</span><span id="nav-conferences">Conferencias</span></a></li>
+                <li class="nav-item"><a href="#contact"><span class="nav-icon">08.</span><span id="nav-contact">Contacto</span></a></li>
             </ul>
         </aside>
 
@@ -882,9 +1042,9 @@
             <!-- HERO -->
             <section id="home">
                 <h1>root@dev:~$ <span id="typing-text"></span><span class="cursor"></span></h1>
-                <p class="role-text">// Backend Developer</p>
+                <p class="role-text">// Fullstack Developer</p>
                 <div style="margin-top: 3rem;">
-                    <a href="#projects" class="contact-btn" style="display:inline-block; width:auto; text-decoration:none; box-shadow: 0 0 20px rgba(112, 0, 255, 0.4); background: linear-gradient(90deg, #7000ff, #00f3ff);">
+                    <a href="#projects" class="contact-btn" id="hero-btn" style="display:inline-block; width:auto; text-decoration:none; box-shadow: 0 0 20px rgba(112, 0, 255, 0.4); background: linear-gradient(90deg, #7000ff, #00f3ff);">
                         EXPLORAR PROYECTOS
                     </a>
                 </div>
@@ -893,7 +1053,7 @@
             <!-- ABOUT -->
             <section id="about">
                 <div class="section-header">
-                    <h2 class="section-title">Acerca de mí</h2>
+                    <h2 class="section-title" id="title-about">Acerca de mí</h2>
                 </div>
                 <div class="about-container">
                     <div class="profile-pic-container">
@@ -901,7 +1061,7 @@
                             <img src="img/perfil.png" alt="Foto de Perfil" style="width: 100%; height: 100%; object-fit: cover;">
                         </div>
                     </div>
-                    <div class="about-text">
+                    <div class="about-text" id="about-text-content">
                         <p><strong>Hola, soy Daniel Prado.</strong></p>
                         <p>Soy un desarrollador apasionado por la arquitectura de software robusta y escalable. Mi especialidad es el <strong>Backend</strong>, donde disfruto diseñando microservicios, APIs RESTful y optimizando bases de datos.</p>
                         <p>Mi enfoque es crear código limpio, eficiente y seguro. Me encanta resolver problemas complejos y automatizar procesos que ahorren tiempo y recursos.</p>
@@ -910,45 +1070,49 @@
                 </div>
             </section>
 
-             <!-- NUEVA SECCIÓN EXPERIENCIA -->
-             <section id="experience">
+             <!-- ACADÉMICA -->
+             <section id="academic">
                 <div class="section-header">
-                    <h2 class="section-title">Experiencia</h2>
+                    <h2 class="section-title" id="title-academic">Académico</h2>
                 </div>
-                <div class="projects-grid" id="experience-container">
-                    <!-- JS Injected (Experiencia) -->
+                <div class="projects-grid" id="academic-container" style="grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));">
+                    <!-- JS Injected -->
                 </div>
             </section>
 
-            <!-- PROJECTS -->
+             <!-- EXPERIENCIA -->
+             <section id="experience">
+                <div class="section-header">
+                    <h2 class="section-title" id="title-experience">Experiencia</h2>
+                </div>
+                <div class="projects-grid" id="experience-container">
+                    <!-- JS Injected -->
+                </div>
+            </section>
+
+            <!-- PROYECTOS -->
             <section id="projects">
                 <div class="section-header">
-                    <h2 class="section-title">Proyectos</h2>
+                    <h2 class="section-title" id="title-projects">Proyectos</h2>
                 </div>
 
                 <div class="category-subheader">
                     <span>// BACKEND_SYSTEMS</span>
                 </div>
-                <div class="projects-grid" id="backend-container">
-                    <!-- JS Injected -->
-                </div>
+                <div class="projects-grid" id="backend-container"></div>
 
                 <div class="category-subheader">
-                    <span>// FRONTEND_INTERFACE</span>
+                    <span>// AI_SOLUTIONS</span>
                 </div>
-             
-                <div class="projects-grid" id="frontend-container">
-                  <!--  JS Injected -->
-                </div>
-
+                <div class="projects-grid" id="ai-container"></div>
             </section>
 
             <!-- TECH -->
             <section id="tech">
                 <div class="section-header">
-                    <h2 class="section-title">Tecnologías</h2>
+                    <h2 class="section-title" id="title-tech">Tecnologías</h2>
                 </div>
-                <p style="margin-bottom: 2rem;">Herramientas y tecnologías que utilizo en mi día a día:</p>
+                <p style="margin-bottom: 2rem;" id="tech-subtitle">Herramientas y tecnologías que utilizo en mi día a día:</p>
                 <div class="tech-grid">
                     <div class="tech-card">Java</div>
                     <div class="tech-card">Spring Boot</div>
@@ -964,37 +1128,37 @@
                     <div class="tech-card">Linux</div>
                     <div class="tech-card">REST API</div>
                     <div class="tech-card">CI/CD</div>
-                    <div class="tech-card">IA</div> 
+                    <div class="tech-card">IA</div>
                 </div>
             </section>
 
-            <!-- NUEVA SECCIÓN CONFERENCIAS -->
+            <!-- CONFERENCIAS -->
             <section id="conferences">
                 <div class="section-header">
-                    <h2 class="section-title">Conferencias</h2>
+                    <h2 class="section-title" id="title-conferences">Conferencias</h2>
                 </div>
                 <div class="projects-grid" id="conferences-container">
-                    <!-- JS Injected (Conferencias) -->
+                    <!-- JS Injected -->
                 </div>
             </section>
 
             <!-- CONTACT -->
             <section id="contact">
                 <div class="section-header">
-                    <h2 class="section-title">Contacto</h2>
+                    <h2 class="section-title" id="title-contact">Contacto</h2>
                 </div>
                 <div style="display: flex; flex-direction: column; align-items: center; width: 100%;">
                     <div class="contact-container">
-                        <p style="margin-bottom: 2rem; color: var(--text-secondary); text-align: center;">¿Tienes un proyecto en mente? Envíame un mensaje:</p>
+                        <p style="margin-bottom: 2rem; color: var(--text-secondary); text-align: center;" id="contact-subtitle">Envíame un mensaje:</p>
                         <form id="contact-form" action="https://formsubmit.co/danielquincy@outlook.com" method="POST">
                             <input type="hidden" name="_captcha" value="false">
                             <input type="hidden" name="_subject" value="Nuevo mensaje del Portafolio!">
                             <input type="hidden" name="_template" value="table">
                             
-                            <input type="text" name="name" placeholder="Tu Nombre" class="contact-input" required>
-                            <input type="email" name="email" placeholder="Tu Correo" class="contact-input" required>
-                            <textarea name="message" placeholder="¿Cómo puedo ayudarte?" class="contact-input" rows="5" required></textarea>
-                            <button type="submit" class="contact-btn">ENVIAR MENSAJE</button>
+                            <input type="text" name="name" placeholder="Tu Nombre" class="contact-input" id="input-name" required>
+                            <input type="email" name="email" placeholder="Tu Correo" class="contact-input" id="input-email" required>
+                            <textarea name="message" placeholder="¿Cómo puedo ayudarte?" class="contact-input" id="input-message" rows="5" required></textarea>
+                            <button type="submit" class="contact-btn" id="btn-submit">ENVIAR MENSAJE</button>
                         </form>
                         <div id="form-status" style="margin-top: 1rem; font-weight: bold; text-align: center; display: none;"></div>
                     </div>
@@ -1045,14 +1209,42 @@
     </div>
 
     <script>
-        // --- TEMAS ---
+        // --- CONTROL DE MENÚ MÓVIL ---
+        const mobileBtn = document.getElementById('mobileMenuBtn');
+        const sidebar = document.querySelector('.sidebar');
+        const overlay = document.getElementById('sidebarOverlay');
+        const navLinks = document.querySelectorAll('.nav-item a');
+
+        function toggleMenu() {
+            sidebar.classList.toggle('active');
+            overlay.classList.toggle('active');
+            // Cambiar icono
+            mobileBtn.innerHTML = sidebar.classList.contains('active') ? '<i class="fas fa-times"></i>' : '<i class="fas fa-bars"></i>';
+        }
+
+        mobileBtn.addEventListener('click', toggleMenu);
+        overlay.addEventListener('click', toggleMenu);
+
+        // Cerrar menú al hacer clic en un enlace (Mejora UX)
+        navLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                if(window.innerWidth <= 900) {
+                    toggleMenu();
+                }
+            });
+        });
+
+        // --- CONTROL DE IDIOMA Y TEMA ---
+        let currentLang = 'es';
         const themeToggleBtn = document.getElementById('themeToggle');
+        const langToggleBtn = document.getElementById('langToggle');
         const htmlElement = document.documentElement;
 
+        // Tema
         const savedTheme = localStorage.getItem('theme');
         if (savedTheme) {
             htmlElement.setAttribute('data-theme', savedTheme);
-            updateThemeIcon(savedTheme);
+            themeToggleBtn.innerHTML = savedTheme === 'light' ? '☾' : '☀';
         }
 
         themeToggleBtn.addEventListener('click', () => {
@@ -1060,160 +1252,439 @@
             const newTheme = currentTheme === 'light' ? 'dark' : 'light';
             htmlElement.setAttribute('data-theme', newTheme);
             localStorage.setItem('theme', newTheme);
-            updateThemeIcon(newTheme);
+            themeToggleBtn.innerHTML = newTheme === 'light' ? '☾' : '☀';
+        });
+ 
+        // Idioma
+        langToggleBtn.addEventListener('click', () => {
+            currentLang = currentLang === 'es' ? 'en' : 'es';
+            langToggleBtn.innerHTML = currentLang.toUpperCase();
+            updateLanguage();
         });
 
-        function updateThemeIcon(theme) {
-            themeToggleBtn.innerHTML = theme === 'light' ? '☾' : '☀';
+        // --- DICCIONARIO DE TRADUCCIONES ESTÁTICAS ---
+        const staticTranslations = {
+            es: {
+                navHome: 'Inicio',
+                navAbout: 'Acerca de mí',
+                navAcademic: 'Académico',
+                navExp: 'Experiencia',
+                navProjects: 'Proyectos',
+                navTech: 'Tecnologías',
+                navConf: 'Conferencias',
+                navContact: 'Contacto',
+                heroBtn: 'EXPLORAR PROYECTOS',
+                titleAbout: 'Acerca de mí',
+                aboutText: `
+                    <p><strong>Hola, soy Daniel Prado.</strong></p>
+                    <p>Soy un desarrollador apasionado por la arquitectura de software robusta y escalable. Mi especialidad es el <strong>Backend</strong>, donde disfruto diseñando microservicios, APIs RESTful y optimizando bases de datos.</p>
+                    <p>Mi enfoque es crear código limpio, eficiente y seguro. Me encanta resolver problemas complejos y automatizar procesos que ahorren tiempo y recursos.</p>
+                    <p style="font-family: var(--font-mono); color: var(--accent); font-size: 0.9rem;">> "Code is like humor. When you have to explain it, it’s bad."</p>
+                `,
+                titleAcademic: 'Académico',
+                titleExp: 'Experiencia',
+                titleProjects: 'Proyectos',
+                titleTech: 'Tecnologías',
+                techSubtitle: 'Herramientas y tecnologías que utilizo en mi día a día:',
+                titleConf: 'Conferencias',
+                titleContact: 'Contacto',
+                contactSubtitle: '¿Tienes un proyecto en mente? Envíame un mensaje:',
+                phName: 'Tu Nombre',
+                phEmail: 'Tu Correo',
+                phMessage: '¿Cómo puedo ayudarte?',
+                btnSubmit: 'ENVIAR MENSAJE',
+                btnDetails: 'VER DETALLES',
+                btnInfo: 'VER INFO',
+                btnSkills: 'VER APTITUDES',
+                // Textos adicionales para el modal
+                issuedBy: 'Certificación emitida por',
+                statusVerified: '> Estado: Verificado',
+                warnNoAssets: '> AVISO: No se encontraron recursos visuales.',
+                modalTitles: {
+                    desc: 'DESCRIPCIÓN',
+                    stack: 'STACK TECNOLÓGICO',
+                    stackSimple: 'STACK',
+                    feat: 'CARACTERÍSTICAS',
+                    extra: 'COMENTARIOS EXTRAS',
+                    topics: 'TÓPICOS',
+                    event: 'DETALLES DEL EVENTO',
+                    resp: 'RESPONSABILIDADES',
+                    job: 'DETALLES DEL PUESTO',
+                    gallery: 'GALERÍA DEL PROYECTO',
+                    skills: 'APTITUDES APLICADAS',
+                    cert: 'CERTIFICADO DIGITAL',
+                    certDetails: 'DETALLES DE LA CERTIFICACIÓN'
+                },
+                viewCert: 'VER CERTIFICADO',
+                viewCode: 'VER CÓDIGO (GITHUB)',
+                waitlist: 'PRÓXIMAMENTE (WAITLIST)'
+            },
+            en: {
+                navHome: 'Home',
+                navAbout: 'About Me',
+                navAcademic: 'Academic',
+                navExp: 'Work Experience',
+                navProjects: 'Projects',
+                navTech: 'Technologies',
+                navConf: 'Conferences',
+                navContact: 'Contact',
+                heroBtn: 'EXPLORE PROJECTS',
+                titleAbout: 'About Me',
+                aboutText: `
+                    <p><strong>Hi, I'm Daniel Prado.</strong></p>
+                    <p>I am a developer passionate about robust and scalable software architecture. My specialty is <strong>Backend</strong>, where I enjoy designing microservices, RESTful APIs, and optimizing databases.</p>
+                    <p>My focus is on creating clean, efficient, and secure code. I love solving complex problems and automating processes to save time and resources.</p>
+                    <p style="font-family: var(--font-mono); color: var(--accent); font-size: 0.9rem;">> "Code is like humor. When you have to explain it, it’s bad."</p>
+                `,
+                titleAcademic: 'Academic',
+                titleExp: 'Work Experience',
+                titleProjects: 'Projects',
+                titleTech: 'Technologies',
+                techSubtitle: 'Tools and technologies I use daily:',
+                titleConf: 'Conferences',
+                titleContact: 'Contact',
+                contactSubtitle: 'Send me a message:',
+                phName: 'Your Name',
+                phEmail: 'Your Email',
+                phMessage: 'How can I help you?',
+                btnSubmit: 'SEND MESSAGE',
+                btnDetails: 'VIEW DETAILS',
+                btnInfo: 'VIEW INFO',
+                btnSkills: 'VIEW SKILLS',
+                // Additional texts for the modal
+                issuedBy: 'Certification issued by',
+                statusVerified: '> Status: Verified',
+                warnNoAssets: '> WARN: No visual assets found.',                
+                modalTitles: {
+                    desc: 'DESCRIPTION',
+                    stack: 'TECH STACK',
+                    stackSimple: 'STACK', 
+                    feat: 'FEATURES',
+                    extra: 'EXTRA COMMENTS',
+                    topics: 'TOPICS',
+                    event: 'EVENT DETAILS',
+                    resp: 'RESPONSIBILITIES',
+                    job: 'JOB DETAILS',
+                    gallery: 'PROJECT GALLERY',
+                    skills: 'APPLIED SKILLS',
+                    cert: 'DIGITAL CERTIFICATE',
+                    certDetails: 'CERTIFICATION DETAILS'
+                },
+                viewCert: 'VIEW CERTIFICATE',
+                viewCode: 'VIEW CODE (GITHUB)',
+                waitlist: 'COMING SOON (WAITLIST)'
+            }
+        };
+
+        function updateLanguage() {
+            const t = staticTranslations[currentLang];
+            
+            // Nav
+            document.getElementById('nav-home').textContent = t.navHome;
+            document.getElementById('nav-about').textContent = t.navAbout;
+            document.getElementById('nav-academic').textContent = t.navAcademic;
+            document.getElementById('nav-experience').textContent = t.navExp;
+            document.getElementById('nav-projects').textContent = t.navProjects;
+            document.getElementById('nav-tech').textContent = t.navTech;
+            document.getElementById('nav-conferences').textContent = t.navConf;
+            document.getElementById('nav-contact').textContent = t.navContact;
+
+            // Section Titles & Content
+            document.getElementById('hero-btn').textContent = t.heroBtn;
+            document.getElementById('title-about').textContent = t.titleAbout;
+            document.getElementById('about-text-content').innerHTML = t.aboutText;
+            document.getElementById('title-academic').textContent = t.titleAcademic;
+            document.getElementById('title-experience').textContent = t.titleExp;
+            document.getElementById('title-projects').textContent = t.titleProjects;
+            document.getElementById('title-tech').textContent = t.titleTech;
+            document.getElementById('tech-subtitle').textContent = t.techSubtitle;
+            document.getElementById('title-conferences').textContent = t.titleConf;
+            document.getElementById('title-contact').textContent = t.titleContact;
+            document.getElementById('contact-subtitle').textContent = t.contactSubtitle;
+            
+            // Form
+            document.getElementById('input-name').placeholder = t.phName;
+            document.getElementById('input-email').placeholder = t.phEmail;
+            document.getElementById('input-message').placeholder = t.phMessage;
+            document.getElementById('btn-submit').textContent = t.btnSubmit;
+
+            // Re-render Dynamic Content
+            renderProjects();
         }
 
-        // --- DATOS DE PROYECTOS ---
+        // --- DATOS ACADÉMICOS ---
+        const academicData = [
+            {
+                id: 'cert_java',
+                category: 'academic',
+                title: 'Java SE 11 Developer',
+                place: 'Oracle University',
+                image: 'https://placehold.co/600x400/0b0c10/00f3ff?text=Certificado+Java'
+            },
+            {
+                id: 'cert_aws',
+                category: 'academic',
+                title: 'AWS Cloud Practitioner',
+                place: 'Amazon Web Services',
+                image: 'https://placehold.co/600x400/0b0c10/ff9900?text=Certificado+AWS'
+            },
+            {
+                id: 'cert_scrum',
+                category: 'academic',
+                title: 'Professional Scrum Master I',
+                place: 'Scrum.org',
+                image: 'https://placehold.co/600x400/0b0c10/ffffff?text=Certificado+Scrum'
+            }
+        ];
+
+                // --- DATOS DE PROYECTOS (Con soporte multi-idioma) ---
         const projectsData = [
             {
                 id: 'ms_usuario',
                 category: 'backend',
                 title: 'ms_usuario',
                 repoUrl: 'https://github.com/danielquincy/ms_usuario',
-                shortDesc: 'Microservicio centralizado para gestión de identidad.',
+                shortDesc: { es: 'Microservicio centralizado para gestión de identidad.', en: 'Centralized microservice for identity management.' },
                 details: {
                     ticket: '#3042', status: 'Production',
                     tech: ['Java Spring Boot', 'PostgreSQL', 'JWT', 'Docker'],
-                    description: 'Sistema backend encargado de la autenticación y autorización segura.',
+                    description: { es: 'Sistema backend encargado de la autenticación y autorización segura.', en: 'Backend system responsible for secure authentication and authorization.' },
                     features: ['CRUD Usuarios', 'BCrypt', 'JWT', 'Roles']
                 },
                 images: [
-                    { url: 'img/ms_usuario/1.png', caption: 'Arquitectura de Paquetes' },
-                    { url: 'img/ms_usuario/2.png', caption: 'Composición' },
-                    { url: 'img/ms_usuario/GetAll.png', caption: 'GetAll' },
-                    { url: 'img/ms_usuario/GetById.png', caption: 'GetById' },
-                    { url: 'img/ms_usuario/Patch1.png', caption: 'Patch' },
-                    { url: 'img/ms_usuario/Patch2.png', caption: 'Patch' },
-                    { url: 'img/ms_usuario/Post1.png', caption: 'Post' },
-                    { url: 'img/ms_usuario/Post2.png', caption: 'Post' },
-                    { url: 'img/ms_usuario/Put1.png', caption: 'Put' },
-                    { url: 'img/ms_usuario/Put2.png', caption: 'Put' }
+                    { url: 'img/ms_usuario/1.jpg', caption: 'Arquitectura de Paquetes' },
+                    { url: 'img/ms_usuario/2.jpg', caption: 'Composición' },
+                    { url: 'img/ms_usuario/3.jpg', caption: 'GetAll' },
+                    { url: 'img/ms_usuario/4.jpg', caption: 'GetById' },
+                    { url: 'img/ms_usuario/5.jpg', caption: 'Patch' },
+                    { url: 'img/ms_usuario/6.jpg', caption: 'Patch' },
+                    { url: 'img/ms_usuario/7.jpg', caption: 'Post' },
+                    { url: 'img/ms_usuario/8.jpg', caption: 'Post' },
+                    { url: 'img/ms_usuario/9.jpg', caption: 'Put' },
+                    { url: 'img/ms_usuario/10.jpg', caption: 'Put' }
                 ]
-            },
-            {
-                id: 'cliente',
-                category: 'frontend',
-                title: 'Cliente Web Integrator',
-                repoUrl: 'https://github.com/danielquincy/Cliente',
-                shortDesc: 'Cliente de integración para consumo de APIs.',
-                details: {
-                    ticket: '#1055', status: 'Stable',
-                    tech: ['JS/TS', 'Axios', 'REST API'],
-                    description: 'Módulo cliente para orquestar peticiones HTTP.',
-                    features: ['Interceptores', 'Manejo de errores', 'DTOs']
-                },
-                images: [{ url: 'https://placehold.co/600x400/1f2833/00ff00?text=Dashboard', caption: 'dash.jpg' }]
-            },
-            {
-                id: 'appjavalambda',
-                category: 'backend',
-                title: 'AppJavaLambda',
-                repoUrl: 'https://github.com/danielquincy/AppJavaLambda',
-                shortDesc: 'Funciones Serverless en AWS Lambda.',
-                details: {
-                    ticket: '#5001', status: 'Deployed',
-                    tech: ['Java 11', 'AWS Lambda', 'DynamoDB'],
-                    description: 'Funciones lambda puras para procesamiento asíncrono.',
-                    features: ['Cold start opt', 'API Gateway', 'SQS']
-                },
-                images: [{ url: 'https://placehold.co/600x400/000000/fctf00?text=AWS', caption: 'aws.png' }]
             },
             {
                 id: 'monitoreo',
                 category: 'backend',
                 title: 'Monitoreo System',
                 repoUrl: 'https://github.com/danielquincy/monitoreo',
-                shortDesc: 'Scripts de observabilidad.',
+                shortDesc: { es: 'Scripts de observabilidad.', en: 'Observability scripts.' },
                 details: {
                     ticket: '#9000', status: 'Active',
                     tech: ['Python', 'Prometheus', 'Grafana'],
-                    description: 'Solución integral para supervisar la salud de microservicios.',
+                    description: { es: 'Solución integral para supervisar la salud de microservicios.', en: 'Integral solution to monitor microservices health.' },
                     features: ['Scraping', 'Alertas', 'Uptime']
                 },
-                images: [{ url: 'https://placehold.co/600x400/0b0c10/ff5f56?text=Grafana', caption: 'grafana.png' }]
-            }
-        ];
-
-        // --- DATOS DE EXPERIENCIA ---
+                images: [
+                    { url: 'img/monitoreo/1.jpg', caption: 'Monitoreo' }, 
+                    { url: 'img/monitoreo/2.jpg', caption: 'Monitoreo' }, 
+                    { url: 'img/monitoreo/3.jpg', caption: 'Monitoreo' }, 
+                    { url: 'img/monitoreo/4.jpg', caption: 'Monitoreo' }, 
+                    { url: 'img/monitoreo/5.jpg', caption: 'Monitoreo' }, 
+                    { url: 'img/monitoreo/6.jpg', caption: 'Monitoreo' }
+                ]
+            },
+            // --- AI SOLUTIONS ---
+            {
+                id: 'dashboard_nicaragua',
+                category: 'ai',
+                title: 'Dashboard Nicaraguan Economic',
+                repoUrl: 'https://github.com/danielquincy/nicaraguan-economic-transformation',
+                shortDesc: { es: 'Análisis de transformación económica estratégica.', en: 'Strategic economic transformation analysis.' },
+                details: {
+                    ticket: '#AI-001', status: 'Prototype',
+                    tech: ['Python', 'Pandas', 'Plotly', 'Streamlit'],
+                    description: { es: 'Dashboard interactivo para visualizar y proyectar la transformación económica de Nicaragua hacia 2026.', en: 'Interactive dashboard to visualize and project Nicaragua economic transformation towards 2026.' },
+                    features: {
+                        es: ['Visualización de Datos', 'Proyecciones 2026', 'Reportes Interactivos'],
+                        en: ['Data Visualization', '2026 Projections', 'Interactive Reports']
+                }
+                },
+                images: [
+                 { url: 'img/ia/dashboard/1.png', caption: 'Dashboard Preview' }, 
+                 { url: 'img/ia/dashboard/2.png', caption: 'Dashboard Preview' }, 
+                 { url: 'img/ia/dashboard/3.png', caption: 'Dashboard Preview' }, 
+                 { url: 'img/ia/dashboard/4.png', caption: 'Dashboard Preview' }, 
+                 { url: 'img/ia/dashboard/5.png', caption: 'Dashboard Preview' }, 
+                 { url: 'img/ia/dashboard/6.png', caption: 'Dashboard Preview' }, 
+                 { url: 'img/ia/dashboard/7.png', caption: 'Dashboard Preview' }, 
+                 { url: 'img/ia/dashboard/8.png', caption: 'Dashboard Preview' }, 
+                 { url: 'img/ia/dashboard/9.png', caption: 'Dashboard Preview' }, 
+                 { url: 'img/ia/dashboard/10.png', caption: 'Dashboard Preview'}]
+            },
+            {
+                id: 'kpi_calculator',
+                category: 'ai',
+                title: 'Calculadora KPI con Reporte PDF',
+                repoUrl: 'https://github.com/danielquincy/calculadora-kpi',
+                shortDesc: { es: 'Automatización de reportes de rendimiento.', en: 'Performance reporting automation.' },
+                details: {
+                    ticket: '#AI-002', status: 'Completed',
+                    tech: ['Python', 'FPDF', 'Matplotlib'],
+                    description: { es: 'Herramienta que calcula KPIs clave a partir de datasets crudos y genera reportes ejecutivos en PDF.', en: 'Tool that calculates key KPIs from raw datasets and generates executive PDF reports.' },
+                    features: {
+                        es: ['Cálculo Automático', 'Generación PDF', 'Gráficos Embebidos'],
+                        en: ['Automatic Calculation', 'PDF Generation', 'Embedded Charts']
+                    }
+                },
+                images: [
+                 { url: 'img/ia/calculadora-kpi/1.jpg', caption: 'Calculadora de KPI' },
+                 { url: 'img/ia/calculadora-kpi/2.jpg', caption: 'Calculadora de KPI' },
+                 { url: 'img/ia/calculadora-kpi/3.jpg', caption: 'Calculadora de KPI' } 
+                ]
+            },
+            {
+                id: 'loan_calculator',
+                category: 'ai',
+                title: 'Calculadora de Préstamos',
+                repoUrl: 'https://github.com/danielquincy/calculadora-prestamos/tree/main',
+                shortDesc: { es: 'Evaluación financiera inteligente.', en: 'Intelligent financial evaluation.' },
+                details: {
+                    ticket: '#AI-003', status: 'Beta',
+                    tech: ['JavaScript', 'React', 'Financial Libs'],
+                    description: { es: 'Calculadora avanzada de amortización que incluye escenarios de riesgo.', en: 'Advanced amortization calculator including risk scenarios.' },
+                    features: {
+                        es: ['Tabla de Amortización', 'Análisis de Riesgo', 'Exportación de Datos'],
+                        en: ['Amortization Table', 'Risk Analysis', 'Data Export']
+                    }
+                },
+                images: [
+                 { url: 'img/ia/calculadora-prestamos/1.jpg', caption: 'Calculadora de Préstamos' }, 
+                 { url: 'img/ia/calculadora-prestamos/2.jpg', caption: 'Calculadora de Préstamos' }, 
+                 { url: 'img/ia/calculadora-prestamos/3.jpg', caption: 'Calculadora de Préstamos' }, 
+                 { url: 'img/ia/calculadora-prestamos/4.jpg', caption: 'Calculadora de Préstamos' }, 
+                 { url: 'img/ia/calculadora-prestamos/5.jpg', caption: 'Calculadora de Préstamos' } 
+                ]
+            }, 
+            {
+                id: 'web_redesign_ocr',
+                category: 'ai',
+                title: 'Rediseño Web desde PDF',
+                repoUrl: 'https://github.com/danielquincy/redisenio-web',
+                shortDesc: { es: 'Generación de código a partir de mockups PDF.', en: 'Code generation from PDF mockups.' },
+                details: {
+                    ticket: '#AI-005', status: 'Proof of Concept',
+                    tech: ['OCR', 'Computer Vision', 'HTML/CSS Gen'],
+                    description: { es: 'Pipeline que extrae estructura visual de PDFs para generar esqueletos web.', en: 'Pipeline that extracts visual structure from PDFs to generate web skeletons.' },
+                    features: {
+                        es: ['Extracción OCR', 'Auto-Layout', 'Conversión a HTML'],
+                        en: ['OCR Extraction', 'Auto-Layout', 'HTML Conversion']
+                    }
+                },
+                images: [
+                        { url: 'img/ia/redisenio-web/1.jpg', caption: 'Rediseño de Web a partir de un PDF' },
+                        { url: 'img/ia/redisenio-web/2.jpg', caption: 'Rediseño de Web a partir de un PDF' },
+                        { url: 'img/ia/redisenio-web/3.jpg', caption: 'Rediseño de Web a partir de un PDF' },
+                        { url: 'img/ia/redisenio-web/4.jpg', caption: 'Rediseño de Web a partir de un PDF' },
+                        { url: 'img/ia/redisenio-web/5.jpg', caption: 'Rediseño de Web a partir de un PDF' }
+                ]
+            } 
+        ];        
+            
+        // --- DATOS EXPERIENCIA (Multi-idioma) ---
         const experienceData = [
             {
                 id: 'job1',
                 category: 'experience',
                 title: 'Java Developer',
                 repoUrl: '#',
-                shortDesc: 'Instituto Nicaragüense de Seguridad Social | 2020 - Presente',
+                shortDesc: { 
+                            es:'Instituto Nicaragüense de Seguridad Social | 2020 - Presente', 
+                            en:'Nicaraguan Social Security Institute | 2020 - Present'
+                            },
                 details: {
                     ticket: 'Employee', status: 'Active',
                     tech: ['Java','Hibernate', 'Spring Boot', 'Javascript', 'PostgreSQL','Docker', 'Kubernetes'], 
-                    description: 'Lideré el desarrollo y mantenimiento de sistemas de información críticos para los sectores de Seguro Social y Farmacia, utilizando tecnologías como JavaEE, Spring Boot, JavaScript, Hibernate, Servicios Web, Java Server Faces, Transact-SQL, PostgreSQL, ASP.NET 6, Sencha Architect y pipelines de CI/CD con Git, Jenkins, Docker y Kubernetes.', 
-                    features: [
-                        'Empresa: Instituto Nicaragüense de Seguridad Social',
-                        'Rol: Java Developer',
-                        'Período: Enero 2020 - Presente'
-                    ]
+                    description:{ 
+                                    es:'Lideré el desarrollo y mantenimiento de sistemas de información críticos para los sectores de Seguro Social y Farmacia, utilizando tecnologías como JavaEE, Spring Boot, JavaScript, Hibernate, Servicios Web, Java Server Faces, Transact-SQL, PostgreSQL, ASP.NET 6, Sencha Architect y pipelines de CI/CD con Git, Jenkins, Docker y Kubernetes.', 
+                                    en: 'I led the development and maintenance of critical information systems for the Social Security and Pharmacy sectors, using technologies such as JavaEE, Spring Boot, JavaScript, Hibernate, Web Services, Java Server Faces, Transact-SQL, PostgreSQL, ASP.NET 6, Sencha Architect and CI/CD pipelines with Git, Jenkins, Docker and Kubernetes.'
+                                }, 
+                    features:{
+                        es: [
+                            'Empresa: Tech Solutions Inc',
+                            'Rol: Senior Backend Engineer',
+                            'Periodo: 2024 - Presente'
+                        ],
+                        en: [
+                            'Company: Tech Solutions Inc',
+                            'Role: Senior Backend Engineer',
+                            'Period: 2024 - Present'
+                        ]
+                        }
                 },
-                // Lista de Aptitudes (en lugar de imágenes)
+                // Lista de Aptitudes (en lugar de imágenes)                
                 aptitudes: [
-                    { name: 'Desarrollo en Java', icon: 'fab fa-java' },
                     { name: 'Arquitectura de Software', icon: 'fas fa-sitemap' },
                     { name: 'Liderazgo Técnico', icon: 'fas fa-users' },
                     { name: 'Cloud Computing', icon: 'fas fa-cloud' },
-                    { name: 'Bases de Datos', icon: 'fas fa-network-wired' },
-                    { name: 'CI/CD Pipelines', icon: 'fas fa-rocket' }
-                    
-                ]
+                    { name: 'Bases de Datos', icon: 'fas fa-database' },
+                ]               
             },
             {
                 id: 'job2',
                 category: 'experience',
                 title: 'Consultor MTH',
-                repoUrl: '#',
-                shortDesc: 'Op-Tech Outsourcing Partners | 2016 - 2019',
+                repoUrl: '#',            
+                shortDesc: 'Op-Tech Outsourcing Partners | 2016 - 2019', 
                 details: {
                     ticket: 'Employee', status: 'Completed',
                     tech: ['Linux','RedHat', 'Oracle DB 12 c', 'MTH', 'AltamirA'], 
-                    description: 'Trabajé en la gestión de promociones regionales para Telefónica mediante la parametrización de nuevos servicios, cumpliendo con los requisitos dinámicos de los sectores comerciales en Centroamérica.', 
-                    features: [
-                        'Empresa: Op-Tech Outsourcing Partner',
-                        'Rol: Consultor MTH',
-                        'Período: Agosto 2016 - Marzo 2019'
-                    ]
-                },
-                aptitudes: [
-                    { name: 'Desarrollo Bases de Datos', icon: 'fas fa-network-wired' },
-                    { name: 'Scrum / Agile', icon: 'fas fa-tasks' },
-                    { name: 'Resolución de Problemas', icon: 'fas fa-brain' },
-                    { name: 'Trabajo en Equipo', icon: 'fas fa-people-carry' },
-                    { name: 'Atención al Cliente', icon: 'fas fa-user-alt' },
-                    { name: 'Gestión de Cambios', icon: 'fas fa-chart-line' }                    	
-                ]
+                    description: { 
+                                    es: 'Trabajé en la gestión de promociones regionales para Telefónica mediante la parametrización de nuevos servicios, cumpliendo con los requisitos dinámicos de los sectores comerciales en Centroamérica.',
+                                    en: 'I worked in the management of regional promotions for Telefónica by configuring new services, meeting the dynamic requirements of the commercial sectors in Central America.' 
+                                },
+                    features: {
+                                es: [
+                                    'Empresa: Op-Tech Outsourcing Partner',
+                                    'Rol: Consultor MTH',
+                                    'Período: Agosto 2016 - Marzo 2019'
+                                ],
+                                en: [
+                                    'Company: Op-Tech Outsourcing Partner', 
+                                    'Role: MTH Consultant', 
+                                    'Period: August 2016 - March 2019'
+                                ]
+                            }                                          
+                        },
+                aptitudes:[
+                            { name: 'Desarrollo Bases de Datos', icon: 'fas fa-database' },
+                            { name: 'Scrum / Agile', icon: 'fas fa-tasks' },
+                            { name: 'Resolución de Problemas', icon: 'fas fa-brain' },
+                            { name: 'Trabajo en Equipo', icon: 'fas fa-people-carry' },
+                            { name: 'Atención al Cliente', icon: 'fas fa-user-alt' },
+                            { name: 'Gestión de Cambios', icon: 'fas fa-chart-line' }    
+                       ]                              
             },
             {
                 id: 'job3',
                 category: 'experience',
                 title: 'Soporte Técnico',
                 repoUrl: '#',
-                shortDesc: 'YOTA de Nicaragua | 2015',
+                shortDesc: 'YOTA Nicaragua | 2015',
                 details: {
                     ticket: 'Employee', status: 'Completed',
-                    tech: ['Linux','Windows', 'Soporte Técnico', 'Atención al Cliente'], 
-                    description: 'Realicé diagnósticos, reparaciones y configuraciones de equipos, asegurando altos estándares de calidad en el servicio y satisfacción del cliente.', 
-                    features: [
+                    tech: ['Linux','Windows', 'Soporte Técnico'], 
+                    description: {es:'Realicé diagnósticos, reparaciones y configuraciones de equipos, asegurando altos estándares de calidad en el servicio y satisfacción del cliente.', en:'I performed diagnostics, repairs, and configurations of equipment, ensuring high standards of service quality and customer satisfaction.'}, 
+                    features: {
+                        es:[
                         'Empresa: YOTA de Nicaragua',
                         'Rol: Soporte Técnico',
-                        'Período: Marzo 2015 - Noviembre 201'
-                    ]
+                        'Período: Marzo 2015 - Noviembre 2015'
+                    ],
+                        en:[
+                        'Company: YOTA of Nicaragua',
+                        'Role: Technical Support',
+                        'Period: March 2015 - November 2015'
+                        ]
+                    }                     
                 },
-                aptitudes: [
-                    { name: 'Soporte Técnico', icon: 'fas fa-users-cog' },
-                    { name: 'Atención al Cliente', icon: 'fas fa-user-alt' },
-                    { name: 'Resolución de Problemas', icon: 'fas fa-brain' },
-                    { name: 'Trabajo en Equipo', icon: 'fas fa-people-carry' }                    	
-                ]
+                aptitudes:[
+                            { name: 'Soporte Técnico', icon: 'fas fa-users-cog' },
+                            { name: 'Atención al Cliente', icon: 'fas fa-user-alt' },
+                            { name: 'Resolución de Problemas', icon: 'fas fa-brain' },
+                            { name: 'Trabajo en Equipo', icon: 'fas fa-people-carry' }  
+                        ]
             }
         ];
 
@@ -1224,19 +1695,32 @@
                 category: 'conference',
                 title: 'Nerdify DevTalks',
                 repoUrl: '#', // No hay repo, se manejará en la lógica
-                shortDesc: 'Ponencia sobre arquitectura y patrones con Java.',
+                shortDesc: {
+                            es: 'Ponencia sobre arquitectura y patrones con Java.', 
+                            en:'Presentation on architecture and patterns with Java.'
+                            },
                 details: {
                     ticket: 'Speaker', status: 'Completed',
-                    // Mapeo Tópicos
+                    
                     tech: ['Java', 'Patrones de Diseño'], 
-                    // Mapeo Comentarios Extras
-                    description: 'Una experiencia enriquecedora donde exploramos cómo los patrones Creacionales, Estructurales y de Comportamiento pueden transformar código complejo en arquitecturas limpias.', 
-                    // Mapeo Info Específica
-                    features: [
-                        'Tema: Patrones de Diseño con Java',
-                        'Lugar: Universidad Nacional de Ingeniería',
-                        'Fecha: 30 de Septiembre 2023'
-                    ]
+                    
+                    description: {
+                            es:'Una experiencia enriquecedora donde exploramos cómo los patrones Creacionales, Estructurales y de Comportamiento pueden transformar código complejo en arquitecturas limpias.', 
+                            en:'An enriching experience where we explored how Creational, Structural, and Behavioral patterns can transform complex code into clean architectures.'
+                        }, 
+                    
+                    features:{
+                        es: [
+                                'Tema: Patrones de Diseño con Java',
+                                'Lugar: Universidad Nacional de Ingeniería',
+                                'Fecha: 30 de Septiembre 2023'
+                             ],
+                        en: [
+                                'Topic: Design Patterns with Java',
+                                'Location: National University of Engineering',
+                                'Date: September 30, 2023'
+                            ]
+                    } 
                 },
                 images: [
                     { url: 'img/conferencias/devtalks/0.png', caption: 'Devtalks Nerdify' },
@@ -1253,15 +1737,17 @@
 
         // --- RENDERIZADO ---
         const backendContainer = document.getElementById('backend-container');
-        const frontendContainer = document.getElementById('frontend-container');
+        //const frontendContainer = document.getElementById('frontend-container');
+        const aiContainer = document.getElementById('ai-container');  
         const conferencesContainer = document.getElementById('conferences-container');
-        const experienceContainer = document.getElementById('experience-container'); // Nuevo contenedor
+        const experienceContainer = document.getElementById('experience-container');  
+        const academicContainer = document.getElementById('academic-container');
         
         const modal = document.getElementById('modal');
         const modalFilename = document.getElementById('modal-filename');
         const modalContent = document.getElementById('modal-log-content');
         const modalGallery = document.getElementById('modal-gallery');
-        const modalGalleryTitle = document.getElementById('modal-gallery-title'); // Título dinámico
+        const modalGalleryTitle = document.getElementById('modal-gallery-title');
         const modalBtn = document.getElementById('modal-github-btn');
 
         // Variables globales para el carrusel
@@ -1269,105 +1755,172 @@
         let totalSlides = 0;
 
         function renderProjects() {
-            // Renderizar Proyectos
+            backendContainer.innerHTML = '';
+          //  frontendContainer.innerHTML = '';
+            aiContainer.innerHTML = '';
+            experienceContainer.innerHTML = '';
+            conferencesContainer.innerHTML = '';
+            academicContainer.innerHTML = '';
+
+            // Proyectos
             projectsData.forEach(project => {
                 const card = createCard(project);
-                if (project.category === 'frontend') frontendContainer.appendChild(card);
-                else backendContainer.appendChild(card);
+                if (project.category === 'backend') 
+                backendContainer.appendChild(card);
+                else if (project.category === 'ai') 
+                aiContainer.appendChild(card);
             });
 
-            // Renderizar Experiencia (NUEVO)
-            experienceData.forEach(job => {
-                const card = createCard(job);
-                experienceContainer.appendChild(card);
-            });
+            // Experiencia
+            experienceData.forEach(job => experienceContainer.appendChild(createCard(job)));
 
-            // Renderizar Conferencias
-            conferencesData.forEach(conf => {
-                const card = createCard(conf);
-                conferencesContainer.appendChild(card);
-            });
+            // Conferencias
+            conferencesData.forEach(conf => conferencesContainer.appendChild(createCard(conf)));
+            
+            // Académico
+            academicData.forEach(item => academicContainer.appendChild(createCard(item)));
         }
 
-        // Función auxiliar para crear tarjetas
+        // Helper para obtener texto (soporta string directo o objeto {es, en})
+        function getText(content) {
+            if (typeof content === 'object' && content !== null) {
+                return content[currentLang] || content['es'];
+            }
+            return content;
+        }
+
+        // Helper para obtener listas (soporta array directo o objeto {es, en})
+        function getList(content) {
+            if (!Array.isArray(content) && typeof content === 'object' && content !== null) {
+                return content[currentLang] || content['es'];
+            }
+            return content;
+        }
+
         function createCard(item) {
+            // Tarjeta Académica
+            if (item.category === 'academic') {
+                const card = document.createElement('div');
+                card.className = 'academic-card';
+                card.onclick = () => openModal(item);
+                const t = staticTranslations[currentLang];
+                
+                card.innerHTML = `
+                    <div class="academic-icon"><i class="fas fa-certificate"></i></div>
+                    <div class="academic-title">${item.title}</div>
+                    <div class="academic-place">${item.place}</div>
+                    <div class="academic-link">${t.viewCert}</div>
+                `;
+                return card;
+            }
+
+            // Tarjeta Estándar
             const card = document.createElement('div');
             card.className = 'project-card';
             card.onclick = () => openModal(item);
-            
-            // Icono diferente según categoría
+            const t = staticTranslations[currentLang];
+
+
             let icon = '<i class="fas fa-terminal"></i>';
             if (item.category === 'conference') icon = '<i class="fas fa-microphone"></i>';
             if (item.category === 'experience') icon = '<i class="fas fa-briefcase"></i>';
+            if (item.category === 'ai') icon = '<i class="fas fa-brain"></i>';
 
-            let btnText = 'VER DETALLES';
-            if (item.category === 'conference') btnText = 'VER INFO';
-            if (item.category === 'experience') btnText = 'VER APTITUDES';
+            let btnText = t.btnDetails;
+            if (item.category === 'conference') btnText = t.btnInfo;
+            if (item.category === 'experience') btnText = t.btnSkills;
 
             card.innerHTML = `
                 <div class="card-icon">${icon}</div>
                 <h3 class="card-title">${item.title}</h3>
-                <p class="card-desc">${item.shortDesc}</p>
+                <p class="card-desc">${getText(item.shortDesc)}</p>
                 <button class="btn-details">${btnText}</button>
             `;
             return card;
         }
 
         function openModal(item) {
-            // Ajustar título de ventana según tipo
+            const t = staticTranslations[currentLang];
             let pathType = 'projects';
             if (item.category === 'conference') pathType = 'talks';
             if (item.category === 'experience') pathType = 'jobs';
+            if (item.category === 'ai') pathType = 'ai_solutions';
+            if (item.category === 'academic') pathType = 'certificates';
             
             modalFilename.innerText = `root@server:~/${pathType}/${item.title}`;
             
-            // Ajustar botón de repositorio (ocultar para experiencia si no hay link)
-            if (item.repoUrl === '#' || !item.repoUrl) {
-                modalBtn.style.display = 'none'; 
+            // Botón GitHub/Repo
+            if (item.category === 'academic' || item.category === 'conference' || item.category === 'experience') {
+                 modalBtn.style.display = 'none';
             } else {
-                modalBtn.style.display = 'flex';
-                modalBtn.href = item.repoUrl;
-                modalBtn.innerHTML = 'VER CÓDIGO (GITHUB)';
-            }
-            
-            let techStackHtml = item.details.tech.map(t => `<span style="background:rgba(0, 243, 255, 0.1); border:1px solid rgba(0, 243, 255, 0.3); padding:4px 8px; margin-right:5px; border-radius:4px; font-size:0.8rem; color: var(--text-primary); display:inline-block; margin-bottom:5px;">${t}</span>`).join('');
-            let featuresHtml = item.details.features.map(f => `<li style="margin-bottom:5px;">• ${f}</li>`).join('');
+                modalBtn.style.display = 'flex'; 
+                modalBtn.classList.remove('disabled');
 
-            // Títulos dinámicos según tipo
-            let descTitle = 'DESCRIPCIÓN';
-            let stackTitle = 'STACK TECNOLÓGICO';
-            let featTitle = 'CARACTERÍSTICAS';
-
-            if (item.category === 'conference') {
-                descTitle = 'COMENTARIOS EXTRAS';
-                stackTitle = 'TÓPICOS';
-                featTitle = 'DETALLES DEL EVENTO';
-            } else if (item.category === 'experience') {
-                descTitle = 'RESPONSABILIDADES';
-                stackTitle = 'TECNOLOGÍAS CLAVE';
-                featTitle = 'DETALLES DEL PUESTO';
+                if (item.repoUrl === '#' || !item.repoUrl) {
+                    modalBtn.href = 'javascript:void(0)';
+                    modalBtn.innerHTML = t.waitlist;
+                    modalBtn.classList.add('disabled');
+                } else {
+                    modalBtn.href = item.repoUrl;
+                    modalBtn.innerHTML = t.viewCode;
+                }
             }
+
+            // --- CONTENIDO MODAL ---
+            if (item.category === 'academic') {
+                 modalGalleryTitle.innerText = t.modalTitles.cert;
+                 modalContent.innerHTML = `
+                    <div>
+                        <h3>${t.modalTitles.certDetails}</h3>
+                        <p style="color:var(--modal-text); margin-bottom:1rem;">${t.issuedBy} <strong>${item.place}</strong>.</p>
+                        <p style="color:var(--text-primary); font-family:var(--font-mono);">${t.statusVerified}</p>
+                    </div>
+                 `;
+                 modalGallery.innerHTML = `
+                    <div style="display:flex; justify-content:center; align-items:center; background:#000; padding:10px; border-radius:8px; border:1px solid var(--glass-border);">
+                         <img src="${item.image}" style="max-width:100%; max-height:400px; object-fit:contain;" alt="Certificado ${item.title}">
+                    </div>
+                 `;
+            } else {
+                let techStackHtml = item.details.tech.map(t => `<span style="background:rgba(0, 243, 255, 0.1); border:1px solid rgba(0, 243, 255, 0.3); padding:4px 8px; margin-right:5px; border-radius:4px; font-size:0.8rem; color: var(--text-primary); display:inline-block; margin-bottom:5px;">${t}</span>`).join('');
+                
+                // Usamos getList para obtener la lista correcta de features según el idioma
+                let featuresList = getList(item.details.features);
+                let featuresHtml = featuresList.map(f => `<li style="margin-bottom:5px;">• ${f}</li>`).join('');
+
+                let descTitle = t.modalTitles.desc;
+                let stackTitle = t.modalTitles.stack;
+                let featTitle = t.modalTitles.feat;
+
+                if (item.category === 'conference') {
+                    descTitle = t.modalTitles.extra;
+                    stackTitle = t.modalTitles.topics;
+                    featTitle = t.modalTitles.event;
+                } else if (item.category === 'experience') {
+                    descTitle = t.modalTitles.resp;
+                    stackTitle = t.modalTitles.stackSimple || 'STACK'; // Simplificado
+                    featTitle = t.modalTitles.job;
+                }
 
             modalContent.innerHTML = `
                 <div>
                     <h3>${featTitle}</h3>
                     <ul style="list-style:none; padding-left:0; color:var(--modal-text); margin-bottom:1rem;">${featuresHtml}</ul>
-                    
                     <h3>${stackTitle}</h3>
                     <div style="margin-bottom:1rem;">${techStackHtml}</div>
-
                     <h3>${descTitle}</h3>
-                    <p style="color:var(--modal-text); margin-bottom:1rem; line-height:1.6;">${item.details.description}</p>
+                    <p style="color:var(--modal-text); margin-bottom:1rem; line-height:1.6;">${getText(item.details.description)}</p>
                 </div>
             `;
 
             // Lógica de visualización derecha: Galería vs Aptitudes
             modalGallery.innerHTML = '';
+            // Asegurar que el título sea visible por defecto (puede haber sido ocultado)
+            modalGalleryTitle.style.display = 'block';
             
             if (item.category === 'experience') {
-                // MODO APTITUDES
-                modalGalleryTitle.innerText = "APTITUDES APLICADAS";
-                let aptitudesHtml = item.aptitudes.map(apt => `
+            modalGalleryTitle.innerText = t.modalTitles.skills;
+            let aptitudesHtml = item.aptitudes.map(apt => `
                     <div class="skill-badge">
                         <i class="${apt.icon}"></i>
                         <span>${apt.name}</span>
@@ -1377,41 +1930,42 @@
                 modalGallery.innerHTML = `<div class="skills-container">${aptitudesHtml}</div>`;
 
             } else {
-                // MODO CARRUSEL (Proyectos y Conferencias)
-                modalGalleryTitle.innerText = "GALERÍA";
-                if (item.images && item.images.length > 0) {
-                    currentSlideIndex = 0;
-                    totalSlides = item.images.length;
-                    
-                    let slidesHtml = '';
-                    let indicatorsHtml = '';
+                    // LÓGICA DE GALERÍA DE PROYECTOS/CONFERENCIAS
+                    // Si el ancho es móvil (<= 768px), ocultamos la galería para evitar problemas de layout
+                    if (window.innerWidth <= 768) {
+                        modalGalleryTitle.style.display = 'none'; // Ocultar título "GALERÍA"
+                        modalGallery.innerHTML = ''; // Vaciar contenido
+                    } else {
+                        // Modo Escritorio: Renderizar galería normal
+                        modalGalleryTitle.innerText = t.modalTitles.gallery;
+                        if (item.images && item.images.length > 0) {
+                            currentSlideIndex = 0;
+                            totalSlides = item.images.length;
+                            let slidesHtml = '';
+                            let indicatorsHtml = '';
 
-                    item.images.forEach((img, index) => {
-                        slidesHtml += `
-                            <div class="carousel-slide">
-                                <img src="${img.url}" class="carousel-img" alt="${img.caption}" onerror="this.src='https://placehold.co/600x400/000000/FFF?text=Image+${index+1}'">
-                                <div class="carousel-caption">${img.caption}</div>
-                            </div>
-                        `;
-                        indicatorsHtml += `<div class="carousel-dot ${index === 0 ? 'active' : ''}" onclick="setSlide(${index})"></div>`;
-                    });
+                            item.images.forEach((img, index) => {
+                                slidesHtml += `
+                                    <div class="carousel-slide">
+                                        <img src="${img.url}" class="carousel-img" alt="${img.caption}" onerror="this.src='https://placehold.co/600x400/000000/FFF?text=Image+${index+1}'">
+                                        <div class="carousel-caption">${img.caption}</div>
+                                    </div>
+                                `;
+                                indicatorsHtml += `<div class="carousel-dot ${index === 0 ? 'active' : ''}" onclick="setSlide(${index})"></div>`;
+                            });
 
-                    modalGallery.innerHTML = `
-                        <div class="carousel-container">
-                            <button class="carousel-btn prev" onclick="moveSlide(-1)">&#10094;</button>
-                            <button class="carousel-btn next" onclick="moveSlide(1)">&#10095;</button>
-                            
-                            <div class="carousel-track" id="carouselTrack">
-                                ${slidesHtml}
-                            </div>
-
-                            <div class="carousel-indicators" id="carouselIndicators">
-                                ${indicatorsHtml}
-                            </div>
-                        </div>
-                    `;
-                } else {
-                    modalGallery.innerHTML = '<div style="color:var(--warning); font-family:var(--font-mono);">> WARN: No visual assets found.</div>';
+                            modalGallery.innerHTML = `
+                                <div class="carousel-container">
+                                    <button class="carousel-btn prev" onclick="moveSlide(-1)">&#10094;</button>
+                                    <button class="carousel-btn next" onclick="moveSlide(1)">&#10095;</button>
+                                    <div class="carousel-track" id="carouselTrack">${slidesHtml}</div>
+                                    <div class="carousel-indicators" id="carouselIndicators">${indicatorsHtml}</div>
+                                </div>
+                            `;
+                        } else {
+                            modalGallery.innerHTML = `<div style="color:var(--warning); font-family:var(--font-mono);">${t.warnNoAssets}</div>`;
+                        }
+                    }
                 }
             }
             modal.classList.add('active');
@@ -1435,12 +1989,8 @@
             const dots = document.querySelectorAll('.carousel-dot');
             
             // Mover el track
-            if(track) {
-                track.style.transform = `translateX(-${currentSlideIndex * 100}%)`;
-            }
-
-            // Actualizar puntos
-            dots.forEach((dot, idx) => {
+            if(track) track.style.transform = `translateX(-${currentSlideIndex * 100}%)`;
+            if(dots) dots.forEach((dot, idx) => {
                 if (idx === currentSlideIndex) dot.classList.add('active');
                 else dot.classList.remove('active');
             });
@@ -1528,5 +2078,3 @@
     </script>
 </body>
 </html>
-
-
