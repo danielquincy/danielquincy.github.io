@@ -1042,7 +1042,7 @@
             <!-- HERO -->
             <section id="home">
                 <h1>root@dev:~$ <span id="typing-text"></span><span class="cursor"></span></h1>
-                <p class="role-text">// Fullstack Developer</p>
+                <p class="role-text">// Backend Developer</p>
                 <div style="margin-top: 3rem;">
                     <a href="#projects" class="contact-btn" id="hero-btn" style="display:inline-block; width:auto; text-decoration:none; box-shadow: 0 0 20px rgba(112, 0, 255, 0.4); background: linear-gradient(90deg, #7000ff, #00f3ff);">
                         EXPLORAR PROYECTOS
@@ -1288,7 +1288,7 @@
                 techSubtitle: 'Herramientas y tecnologías que utilizo en mi día a día:',
                 titleConf: 'Conferencias',
                 titleContact: 'Contacto',
-                contactSubtitle: '¿Tienes un proyecto en mente? Envíame un mensaje:',
+                contactSubtitle: 'Envíame un mensaje:',
                 phName: 'Tu Nombre',
                 phEmail: 'Tu Correo',
                 phMessage: '¿Cómo puedo ayudarte?',
@@ -1415,25 +1415,68 @@
         // --- DATOS ACADÉMICOS ---
         const academicData = [
             {
-                id: 'cert_java',
+                id: 'cert_databricks_1',
                 category: 'academic',
-                title: 'Java SE 11 Developer',
-                place: 'Oracle University',
-                image: 'https://placehold.co/600x400/0b0c10/00f3ff?text=Certificado+Java'
+                title: 'Generative AI Fundamentals',
+                place: 'Databricks Academy',
+                repoUrl:'https://credentials.databricks.com/dd52f97b-71bf-43b5-83bd-804e5d5f1a81#acc.gZD09COv',
+                image: 'img/certificaciones/databricks/fundamentals.png'
             },
             {
-                id: 'cert_aws',
+                id: 'cert_databricks_2',
                 category: 'academic',
-                title: 'AWS Cloud Practitioner',
-                place: 'Amazon Web Services',
-                image: 'https://placehold.co/600x400/0b0c10/ff9900?text=Certificado+AWS'
+                title: 'Databricks Fundamentals',
+                place: 'Databricks Academy',
+                repoUrl:'https://credentials.databricks.com/c737b06d-de1f-46f8-9ec3-a854194cef7a#acc.MkSPxCEz',
+                image:'img/certificaciones/databricks/iaFundamentals.png'
             },
-            {
-                id: 'cert_scrum',
+              {
+                id: 'cert_oracle_1',
                 category: 'academic',
-                title: 'Professional Scrum Master I',
-                place: 'Scrum.org',
-                image: 'https://placehold.co/600x400/0b0c10/ffffff?text=Certificado+Scrum'
+                title: 'Oracle AI Vector Search Certified Professional',
+                place: 'Oracle Academy',
+                repoUrl:'https://brm-certview.oracle.com/ords/certview/ecertificate?ssn=OC2151121&trackId=DB23AIOCP&key=6cf8b879a595ffef0587f74f1e570260cfa9a2e6',
+                image:'img/certificaciones/oracle/AIVector.png'
+            },
+              {
+                id: 'cert_oracle_2',
+                category: 'academic',
+                title: 'Oracle APEX Cloud Developer Certified Professional',
+                place: 'Oracle Academy',
+                repoUrl:'https://brm-certview.oracle.com/ords/certview/ecertificate?ssn=OC2151121&trackId=APEX24CDOCP&key=4e35340889a0b4e216b464c2730e7d40e2e84da8',
+                image:'img/certificaciones/oracle/APEX.png'
+            },
+              {
+                id: 'cert_oracle_3',
+                category: 'academic',
+                title: 'Oracle Cloud Data Management 2023 Certified Foundations Associate',
+                place: 'Oracle Academy',
+                repoUrl:'https://catalog-education.oracle.com/ords/certview/sharebadge?id=3239C1396C6A8BDC4CEF79E398680E130BE4DEDA04BDEFD77ABAF96542E7147B',
+                image:'img/certificaciones/oracle/Data.png'
+            },
+                          {
+                id: 'cert_oracle_4',
+                category: 'academic',
+                title: 'Oracle Cloud Infrastructure 2023 AI Certified Foundations Associate',
+                place: 'Oracle Academy',
+                repoUrl:'https://catalog-education.oracle.com/ords/certview/sharebadge?id=593FC65A4F463EEE1616879791D3D6BF6121AD7D73686DDC88B6F8B4DF0574E4',
+                image:'img/certificaciones/oracle/AI.png'
+            },
+                          {
+                id: 'cert_oracle_5',
+                category: 'academic',
+                title: 'Oracle Cloud Infrastructure 2023 Certified Foundations Associate',
+                place: 'Oracle Academy',
+                repoUrl:'https://catalog-education.oracle.com/ords/certview/sharebadge?id=7BBED96ECBD2B0B8EE52ECE68AEDFA0F7151A4D75807F6DB7EF5AAAC784C1118',
+                image:'img/certificaciones/oracle/Foundations.png'
+            },
+               {
+                id: 'linkedin_learning',
+                category: 'academic',
+                title: 'Despliegue de Docker en AWS',
+                place: 'LinkedIn Learning',
+                repoUrl:'https://www.linkedin.com/learning/certificates/1b92cc6342c1cdf1cb04889b5bdcf201443def5aa1b26ecdef020d19c5d7f69f?lipi=urn%3Ali%3Apage%3Ad_flagship3_profile_view_base_certifications_details%3BkXsWDOLiQvSuC%2BYQqTLKgQ%3D%3D',
+                image:'img/certificaciones/linkedin/linkedin.jpg'
             }
         ];
 
@@ -1452,7 +1495,7 @@
                     features: ['CRUD Usuarios', 'BCrypt', 'JWT', 'Roles']
                 },
                 images: [
-                    { url: 'img/ms_usuario/1.jpg', caption: 'Arquitectura de Paquetes' },
+                    { url: 'img/ms_usuario/1.jpg', caption: 'Arquitectura de Paquetes'},
                     { url: 'img/ms_usuario/2.jpg', caption: 'Composición' },
                     { url: 'img/ms_usuario/3.jpg', caption: 'GetAll' },
                     { url: 'img/ms_usuario/4.jpg', caption: 'GetById' },
@@ -1749,6 +1792,7 @@
         const modalGallery = document.getElementById('modal-gallery');
         const modalGalleryTitle = document.getElementById('modal-gallery-title');
         const modalBtn = document.getElementById('modal-github-btn');
+        const modalBtnResource = document.getElementById('modal-github-btn');
 
         // Variables globales para el carrusel
         let currentSlideIndex = 0;
@@ -1850,9 +1894,25 @@
             modalFilename.innerText = `root@server:~/${pathType}/${item.title}`;
             
             // Botón GitHub/Repo
-            if (item.category === 'academic' || item.category === 'conference' || item.category === 'experience') {
-                 modalBtn.style.display = 'none';
-            } else {
+            if ( item.category === 'conference' || item.category === 'experience') {
+                 modalBtn.style.display = 'none';                 
+                 
+            }   else if(item.category === 'academic'){
+              modalBtn.style.display = 'flex'; 
+                modalBtn.classList.remove('disabled');
+
+                if (item.repoUrl === '#' || !item.repoUrl) {
+                    modalBtn.href = 'javascript:void(0)';
+                    modalBtn.innerHTML = t.waitlist;
+                    modalBtn.classList.add('disabled');
+                    
+                } else {
+                    modalBtn.href = item.repoUrl;
+                    modalBtn.innerHTML = t.viewCert;
+                }   
+            }
+            
+            else {
                 modalBtn.style.display = 'flex'; 
                 modalBtn.classList.remove('disabled');
 
@@ -1864,6 +1924,8 @@
                     modalBtn.href = item.repoUrl;
                     modalBtn.innerHTML = t.viewCode;
                 }
+
+                
             }
 
             // --- CONTENIDO MODAL ---
